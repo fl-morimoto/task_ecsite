@@ -13,7 +13,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+		//DBの191文字超エラー回避
+		\Illuminate\Support\Facades\Schema::defaultStringLength(191);
     }
 
     /**
