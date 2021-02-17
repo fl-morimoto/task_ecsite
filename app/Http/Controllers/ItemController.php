@@ -9,9 +9,12 @@ class ItemController extends Controller
 {
 	public function index()
 	{
-		$items = (new Item)->allGet();
-		dd($items);
-		$var = 'hello world !!';
-		return view('index', compact('var'));
+		$items = Item::all();
+		return view('item_index', compact('items'));
+	}
+	public function detail(Request $req)
+	{
+		$item = Item::find($req->id);
+		return view('item_detail', compact('item'));
 	}
 }
