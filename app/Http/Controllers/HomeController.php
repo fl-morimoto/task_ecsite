@@ -26,8 +26,6 @@ class HomeController extends Controller
     public function index()
     {
 		$user = getUser();
-		$isAdmin = isAdmin();
-		dd($isAdmin);
         return view('home', compact('user'));
 
     }

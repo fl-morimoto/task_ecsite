@@ -8,7 +8,11 @@
                 <div class="panel-heading">Login</div>
 
                 <div class="panel-body">
-                    <form class="form-horizontal" method="POST" action="{{ route('login') }}">
+																				@if (isAdminRoute())
+																								<form class="form-horizontal" method="POST" action="{{ route('admin.login') }}">
+																				@else
+																								<form class="form-horizontal" method="POST" action="{{ route('login') }}">
+																				@endif
                         {{ csrf_field() }}
 
                         <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
