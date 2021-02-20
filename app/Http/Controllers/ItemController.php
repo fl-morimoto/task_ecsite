@@ -10,12 +10,12 @@ class ItemController extends Controller
 	public function index()
 	{
 		$items = Item::all();
-		return view('item_index', compact('items'));
+		return view('item/index', compact('items'));
 	}
 	public function detail(Request $req)
 	{
 		$item = Item::find($req->id);
-		return view('item_detail', compact('item'));
+		return view('item/detail', compact('item'));
 	}
 	public function create(Request $req)
 	{
