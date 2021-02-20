@@ -24,6 +24,7 @@ class ItemController extends Controller
 	}
 	public function edit(Request $req)
 	{
-		dd('editメソッドへようこそ');
+		$id = $req->input('id');
+		dd('getパラは -> ' . $id);
 	}
 }

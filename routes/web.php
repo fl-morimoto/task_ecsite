@@ -35,7 +35,8 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function() {
 	//ログイン後のリダイレクト先
     Route::get('item/index', 'ItemController@index')->name('admin.item.index');
     Route::get('item/create', 'ItemController@create')->name('admin.item.create');
-    Route::post('item/edit', 'ItemController@edit')->name('admin.item.edit');
+    Route::get('item/edit', 'ItemController@edit')->name('admin.item.edit');
+    Route::get('item/detail', 'ItemController@detail')->name('admin.item.detail');
 
 });
 

@@ -13,8 +13,10 @@
                             {{ session('status') }}
                         </div>
                     @endif
-<p><a href="{{ route('admin.item.index')}}">管理者商品一覧へ</p>
-<p><a href="{{ route('admin.item.create')}}">管理者商品追加へ</p>
+<p><a href="{{ route('admin.item.index')}}">管理者商品一覧へ</a></p>
+<p><a href="{{ route('admin.item.create')}}">管理者商品追加へ</a></p>
+<p><a href="{{ route('admin.item.edit', ['id' => '1']) }}">商品編集ページへ</a></p>
+<p><a href="{{ route('admin.item.detail', ['id' => '1']) }}">管理者商品詳細ページへ</a></p>
                     You are logged in!
                 </div>
             </div>

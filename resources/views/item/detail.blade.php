@@ -1,3 +1,6 @@
+@extends('layouts.app')
+
+@section('content')
 <h1>商品詳細</h1>
 <p width="200">{{ $item->name }}</p>
 <p width="200">{{ $item->price }}</p>
@@ -7,4 +10,13 @@
 @else
 <p>在庫なし</p>
 @endif
-<p><a href="{{ route('item.index')}}">商品一覧へ</p>
+@if (!isAdminRoute())
+<p><a href="{{ route('item.index')}}">商品一覧へ</a></p>
+@else
+<p><a href="{{ route('admin.item.index') }}">商品一覧へ</a></p>
+<p></p>
+<p><a href="{{ route('admin.item.edit', ['id => $item->id']) }}">商品編集へ</a></p>
+@endif
+@endsection
+
+
