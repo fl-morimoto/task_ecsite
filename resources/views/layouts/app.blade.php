@@ -13,7 +13,7 @@
 <!-- Styles -->
 <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 @if (isAdminRoute())
-<style>body{background-color: tomato;}</style>
+<style>body{background-color: wheat;}</style>
 @endif
 </head>
 <body>

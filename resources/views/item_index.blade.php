@@ -1,3 +1,6 @@
+@extends('layouts.app')
+
+@section('content')
 <h1>商品一覧</h1>
 <table border="1">
 <tr>
@@ -8,7 +11,7 @@
 </tr>
 @foreach ($items as $item)
 <tr>
-<td align="right"><a href="{{ route('item.detail', ['id' => $item->id]) }}">{{ $item->name }}</td>
+<td align="right"><a href="{{ route('item.detail', ['id' => $item->id]) }}">{{ $item->name }}</a></td>
 <td align="right">{{ $item->price }}</td>
 <td align="right">{{ $item->quantity }}</td>
 @if (0 < $item->quantity)
@@ -19,3 +22,4 @@
 </tr>
 @endforeach
 </table>
+@endsection
