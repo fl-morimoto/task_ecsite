@@ -17,4 +17,13 @@ class ItemController extends Controller
 		$item = Item::find($req->id);
 		return view('item_detail', compact('item'));
 	}
+	public function create(Request $req)
+	{
+		dd('createメソッドへようこそ');
+
+	}
+	public function edit(Request $req)
+	{
+		dd('editメソッドへようこそ');
+	}
 }

@@ -32,7 +32,11 @@ Route::group(['prefix' => 'admin'], function() {
 Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function() {
     Route::post('logout', 'Admin\LoginController@logout')->name('admin.logout');
     Route::get('home', 'HomeController@index')->name('admin.home');
+	//ログイン後のリダイレクト先
     Route::get('item/index', 'ItemController@index')->name('admin.item.index');
+    Route::get('item/create', 'ItemController@create')->name('admin.item.create');
+    Route::post('item/edit', 'ItemController@edit')->name('admin.item.edit');
+
 });
 
 

@@ -14,6 +14,7 @@
                         </div>
                     @endif
 <p><a href="{{ route('admin.item.index')}}">管理者商品一覧へ</p>
+<p><a href="{{ route('admin.item.create')}}">管理者商品追加へ</p>
                     You are logged in!
                 </div>
             </div>
