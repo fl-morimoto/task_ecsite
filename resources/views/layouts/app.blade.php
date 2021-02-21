@@ -31,12 +31,15 @@
 </button>
 
 <!-- Branding Image -->
-@if (isGuest())
+@if (!isLogin())
 <a class="navbar-brand" href="{{ url('/') }}">
-{{ config('app.name', 'Laravel') }}
-@elseif (!isGuest())
+{{ config('app.name', 'Laravel') }}</a>
+@elseif (isLogin() && getUserType() == 'User')
+<a class="navbar-brand" href="{{ route('home') }}">
+{{ config('app.name', 'Laravel') }}</a>
+@elseif (isLogin() && getUserType() == 'Admin')
 <a class="navbar-brand" href="{{ route('admin.home') }}">
-{{ config('app.name', 'Laravel') }}
+{{ config('app.name', 'Laravel') }}</a>
 @endif
 </a>
 </div>
@@ -50,7 +53,7 @@
 <!-- Right Side Of Navbar -->
 <ul class="nav navbar-nav navbar-right">
 <!-- Authentication Links -->
-@if (isGuest())
+@if (!isLogin())
 <li><a href="{{ route('login') }}">Login</a></li>
 <li><a href="{{ route('register') }}">Register</a></li>
 @elseif (!isLogin() && isAdminRoute())
@@ -59,10 +62,10 @@
 @if (isLogin())
 <li class="dropdown">
 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" v-pre>
-{{ getUser()->name }} <span class="caret"></span>
+{{ userInfo()->name }} <span class="caret"></span>
 </a>
 @endif
-@if (isLogin() && !isAdminRoute())
+@if (isLogin() && getUserType() == 'User')
 <ul class="dropdown-menu">
 <li>
 <a href="{{ route('logout') }}"
@@ -76,7 +79,7 @@ Logout
 </form>
 </li>
 </ul>
-@elseif (isLogin() && isAdminRoute())
+@elseif (isLogin() && getUserType() == 'Admin')
 <ul class="dropdown-menu">
 <li>
 <a href="{{ route('admin.logout') }}"

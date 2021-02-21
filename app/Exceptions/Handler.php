@@ -51,9 +51,9 @@ class Handler extends ExceptionHandler
     {
         return parent::render($request, $exception);
     }
-    //未ログイン時 -> ガード属性のログインページにリダイレクト
     public function unauthenticated($request, AuthenticationException $exception)
     {
+		//未ログイン時 -> ガード属性のログインページにリダイレクト
         if($request->expectsJson()){
             return response()->json(['message' => $exception->getMessage()], 401);
         }

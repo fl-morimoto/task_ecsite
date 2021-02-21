@@ -1,23 +1,26 @@
 <?php
 use Illuminate\Support\Facades\Auth;
 
-if (! function_exists('getUser')) {
-	function getUser() {
-		if (isAdminRoute()) {
-			return Auth::guard('admin')->user();
-		} else {
-			return Auth::guard('user')->user();
-		}
+if (! function_exists('userInfo')) {
+	function userInfo() {
+		return Auth::guard()->user();
 	}
 }
 if (! function_exists('isLogin')) {
 	function isLogin() {
-		return !empty(getUser());
+		return !empty(userInfo());
 	}
 }
-if (! function_exists('isGuest')) {
-	function isGuest() {
-		return !isLogin() && !isAdminRoute();
+if (! function_exists('getUserType')) {
+	function getUserType() {
+		switch (get_class(userInfo())) {
+			case 'App\Admin':
+				$userType = 'Admin';
+				break;
+			default:
+				$userType = 'User';
+		}
+		return $userType;
 	}
 }
 if (! function_exists('isAdminRoute')) {

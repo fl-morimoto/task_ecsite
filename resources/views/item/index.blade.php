@@ -11,7 +11,7 @@
 </tr>
 @foreach ($items as $item)
 <tr>
-@if (isAdminRoute())
+@if (getUserType() == 'Admin')
 <td align="right"><a href="{{ route('admin.item.detail', ['id' => $item->id]) }}">{{ $item->name }}</a></td>
 @else
 <td align="right"><a href="{{ route('item.detail', ['id' => $item->id]) }}">{{ $item->name }}</a></td>
@@ -26,7 +26,7 @@
 </tr>
 @endforeach
 </table>
-@if (isLogin() && isAdminRoute())
+@if (isLogin() && getUserType() == 'Admin')
 <p></p>
 <p><a href="{{ route('admin.item.create') }}">商品追加ページ</a></p>
 @endif

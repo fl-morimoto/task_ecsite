@@ -15,4 +15,7 @@ class Admin extends Authenticatable //modify
     protected $hidden = [
         'password', 'remember_token',
     ];
+	public function getAttrName() {
+		return $this->name;
+	}
 }

@@ -10,12 +10,12 @@
 @else
 <p>在庫なし</p>
 @endif
-@if (!isAdminRoute())
+@if (isLogin() && getUserType() == 'User')
 <p><a href="{{ route('item.index')}}">商品一覧へ</a></p>
-@else
+@elseif (isLogin() && getUserType() == 'Admin')
 <p><a href="{{ route('admin.item.index') }}">商品一覧へ</a></p>
 <p></p>
-<p><a href="{{ route('admin.item.edit', ['id => $item->id']) }}">商品編集へ</a></p>
+<p><a href="{{ route('admin.item.edit', ['id' => $item->id]) }}">商品編集へ</a></p>
 @endif
 @endsection
 
