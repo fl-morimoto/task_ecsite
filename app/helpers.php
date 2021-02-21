@@ -13,12 +13,16 @@ if (! function_exists('isLogin')) {
 }
 if (! function_exists('getUserType')) {
 	function getUserType() {
-		switch (get_class(userInfo())) {
-			case 'App\Admin':
-				$userType = 'Admin';
-				break;
-			default:
-				$userType = 'User';
+		if (!empty(userInfo())) {
+			switch (get_class(userInfo())) {
+				case 'App\Admin':
+					$userType = 'Admin';
+					break;
+				default:
+					$userType = 'User';
+			}
+		} else {
+			$userType = 'Guest';
 		}
 		return $userType;
 	}

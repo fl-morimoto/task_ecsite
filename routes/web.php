@@ -13,12 +13,8 @@
 Auth::routes();
 
 // User 認証不要
-Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/', 'ItemController@index')->name('item.index');
 Route::get('/item/detail', 'ItemController@detail')->name('item.detail');
-//Route::get('/', function () {
-//    return view('welcome');
-//});
 // User ログイン後
 Route::group(['middleware' => 'auth:user'], function() {
     Route::get('home', 'HomeController@index')->name('home');
