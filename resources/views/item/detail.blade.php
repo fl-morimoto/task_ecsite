@@ -7,8 +7,12 @@
 @if (!empty($item))
 <table>
 <tr>
-<td width="100">商品名</td>
+<td width="100">{{ '商品名: ' }}</td>
 <td width="100">{{ $item->name }}</td>
+</tr>
+<tr>
+<td>{{ '商品説明: ' }}</td>
+<td>{{ $item->content }}</td>
 </tr>
 <tr>
 <td>{{ '価格: ' }}</td>
@@ -30,7 +34,7 @@
 @elseif (isLogin() && getUserType() == 'Admin')
 <p><a href="{{ route('admin.item.index') }}">商品一覧へ</a></p>
 <p></p>
-<p><a href="{{ route('admin.item.edit', ['id' => $item->id]) }}">商品編集へ</a></p>
+<p><a href="{{ route('admin.item.form', ['id' => $item->id]) }}">商品編集へ</a></p>
 @endif
 @else
 <p>その商品は存在しません。</p>

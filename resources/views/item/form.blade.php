@@ -17,24 +17,23 @@ $quantity = old('quantity');
 ?>
 @endif
 <?php //dd(session('id')); ?>
-<?php $is_create = (session('id') == ''); ?>
-@if ($is_create)
+<?php $is_edit = !empty($id); ?>
+@if ($is_edit)
+<?php $address = 'admin.item.edit'; ?>
+<h1>{{ '商品編集' }}</h1>
+@else
 <?php $address = 'admin.item.create'; ?>
 <h1>{{ '新規登録' }}</h1>
-@else
-<?php $address = 'admin.item.update'; ?>
-<h1>{{ '商品編集' }}</h1>
 @endisset
 <body>
 <form method="post" action="{{ route($address) }}">
 {{ csrf_field() }}
 <p><label>商品名:</label> <input type="text" name="name" value="{{ $name }}"></p>
 <p><label>説明:</label> <textarea name="content">{{ $content }}</textarea></p>
-@if ($is_create)
-<p><label>値段:</label> <input type"text" name="price" value="{{ $price }}"></p>
-@else
-<p><input type="hidden" name="price" value="{{ $price }}"></p>
+@if ($is_edit)
+<input type="hidden" name="id" value="{{ $id }}">
 @endif
+<p><label>値段:</label> <input type="text" name="price" value="{{ $price }}"></p>
 <p><label>在庫:</label> <input type="text" name="quantity" value="{{ $quantity }}"></p>
 <p><button type="submit">登録</button></p>
 </form>

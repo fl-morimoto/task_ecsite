@@ -155,9 +155,9 @@ Logout
 <div class="container py-4">
 {{-- フラッシュメッセージの表示 --}}
 @if (Session::has('true_message'))
-<div class="alert alert-success">{{ session('message') }}</div>
+<div class="alert alert-success">{{ session('true_message') }}</div>
 @elseif (Session::has('false_message'))
-<div class="alert alert-danger">{{ session('message') }}</div>
+<div class="alert alert-danger">{{ session('false_message') }}</div>
 @endif
 
 <?php

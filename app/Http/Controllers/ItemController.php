@@ -18,21 +18,34 @@ class ItemController extends Controller
 		$item = Item::find($req->id);
 		return view('item/detail', compact('item'));
 	}
-	public function form(Request $request) {
-		$name = $request->input('name');
-		$content = $request->input('content');
-		$price = $request->input('price');
-		$quantity = $request->input('quantity');
-		return view('item.form', compact('name', 'content', 'price', 'quantity'));
+	public function form(Request $req)
+   	{
+		if (!empty($req->id)) {
+			//編集 -> edit
+			$item = Item::find($req->id);
+			$id = $item->id;
+			$name = $item->name;
+			$content = $item->content;
+			$price = $item->price;
+			$quantity = $item->quantity;
+			return view('item.form', compact('id', 'name', 'content', 'price', 'quantity'));
+		} else {
+			//追加 -> create
+			$name = '';
+			$content = '';
+			$price = '';
+			$quantity = '';
+			return view('item.form', compact('name', 'content', 'price', 'quantity'));
+		}
 	}
 	public function create(ItemRequest $req)
    	{
-		(new Item)->create($req);
+		(new Item)->fill($req->all())->save();
 		return redirect(route('admin.item.index'))->with('true_message', '商品を追加しました。');
 	}
-	public function edit(Request $req)
+	public function edit(ItemRequest $req)
 	{
-		$id = $req->input('id');
-		dd('getパラは -> ' . $id);
+		(new Item)->edit($req);
+		return redirect(route('admin.item.index'))->with('true_message', '商品を編集しました。');
 	}
 }

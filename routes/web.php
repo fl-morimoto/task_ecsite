@@ -32,7 +32,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function() {
     Route::get('item/index', 'ItemController@index')->name('admin.item.index');
     Route::get('item/form', 'ItemController@form')->name('admin.item.form');
     Route::post('item/create', 'ItemController@create')->name('admin.item.create');
-    Route::get('item/edit', 'ItemController@edit')->name('admin.item.edit');
+    Route::post('item/edit', 'ItemController@edit')->name('admin.item.edit');
     Route::get('item/detail', 'ItemController@detail')->name('admin.item.detail');
 
 });
