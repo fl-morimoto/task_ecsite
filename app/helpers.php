@@ -13,7 +13,7 @@ if (! function_exists('isLogin')) {
 }
 if (! function_exists('getUserType')) {
 	function getUserType() {
-		if (!empty(userInfo())) {
+		if (isLogin()) {
 			switch (get_class(userInfo())) {
 				case 'App\Admin':
 					$userType = 'Admin';

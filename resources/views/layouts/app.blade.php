@@ -9,19 +9,71 @@
 <meta name="csrf-token" content="{{ csrf_token() }}">
 
 <title>{{ config('app.name', 'Laravel') }}</title>
+</head>
 
 <!-- Styles -->
+<nav class="navbar navbar-default navbar-static-top">
 <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+<style>
+h1 { font-size: 17px; }
+h2 { font-size: 15px; }
+.screen_wrap { padding: 0px 15px 15px; }
+td, th {
+padding: 5px 10px;
+}
+form {
+/* Just to center the form on the page */
+margin: 0 left;
+width: 400px;
+/* To see the outline of the form
+padding: 1em;
+border: 1px solid #CCC;
+border-radius: 1em;*/
+}
+form div + div {
+margin-top: 1em;
+}
+label {
+/* To make sure that all labels have the same size and are properly aligned */
+display: inline-block;
+width: 90px;
+text-align: right;
+}
+input, textarea {
+/* To make sure that all text fields have the same font settings By default, textareas have a monospace font */
+font: 1em sans-serif;
+/* To give the same size to all text fields */
+width: 300px;
+box-sizing: border-box; /* To harmonize the look & feel of text field border */
+border: 1px solid #999;
+}
+input:focus, textarea:focus {
+/* To give a little highlight on active elements */
+border-color: #000;
+}
+table {
+border-spacing: 10px;
+margin-left: 2em;
+}
+textarea {
+/* To properly align multiline text fields with their labels */
+vertical-align: top;
+/* To give enough room to type some text */
+height: 5em;
+}
+.button {
+/* To position the buttons to the same position of the text fields */
+padding-left: 90px;
+/* same size as the label elements */
+}
+button {
+/* This extra margin represent roughly the same space as the space between the labels and their text fields */
+margin-left: .5em;
+}
+</style>
 @if (isAdminRoute())
 <style>body{background-color: wheat;}</style>
 @endif
-</head>
-<body>
-<div id="app">
-<nav class="navbar navbar-default navbar-static-top">
-<div class="container">
-<div class="navbar-header">
-
 <!-- Collapsed Hamburger -->
 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#app-navbar-collapse" aria-expanded="false">
 <span class="sr-only">Toggle Navigation</span>
@@ -98,6 +150,21 @@ Logout
 </nav>
 
 @yield('content')
+</div>
+<div class="screen_wrap">
+<div class="container py-4">
+{{-- フラッシュメッセージの表示 --}}
+@if (Session::has('true_message'))
+<div class="alert alert-success">{{ session('message') }}</div>
+@elseif (Session::has('false_message'))
+<div class="alert alert-danger">{{ session('message') }}</div>
+@endif
+
+<?php
+session()->flash('message', null);
+session()->flash('is_succes', null);
+?>
+</div>
 </div>
 
 <!-- Scripts -->

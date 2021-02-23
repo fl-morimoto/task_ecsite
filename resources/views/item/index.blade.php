@@ -1,10 +1,10 @@
 @extends('layouts.app')
 
 @section('content')
-<h1>商品一覧</h1>
+<label><h1>商品一覧</h1></label>
 <table border="1">
 <tr>
-<th width=100>商品名</th>
+<th width=150>商品名</th>
 <th width=100>値段</th>
 <th width=100>在庫数</th>
 <th width=100>在庫</th>
@@ -28,6 +28,6 @@
 </table>
 @if (isLogin() && getUserType() == 'Admin')
 <p></p>
-<p><a href="{{ route('admin.item.create') }}">商品追加ページ</a></p>
+<p><a href="{{ route('admin.item.form') }}">商品追加ページ</a></p>
 @endif
 @endsection
