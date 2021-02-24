@@ -18,6 +18,9 @@ Route::get('/item/detail', 'ItemController@detail')->name('item.detail');
 // User ログイン後
 Route::group(['middleware' => 'auth:user'], function() {
     Route::get('home', 'HomeController@index')->name('home');
+    Route::get('cart/index', 'CartController@index')->name('cart.index');
+    Route::post('cart/add', 'CartController@add')->name('cart.add');
+    Route::post('cart/delete', 'CartController@delete')->name('cart.delete');
 });
 // Admin 認証不要
 Route::group(['prefix' => 'admin'], function() {
@@ -34,7 +37,6 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function() {
     Route::post('item/create', 'ItemController@create')->name('admin.item.create');
     Route::post('item/edit', 'ItemController@edit')->name('admin.item.edit');
     Route::get('item/detail', 'ItemController@detail')->name('admin.item.detail');
-
 });
 
 

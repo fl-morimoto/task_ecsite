@@ -16,6 +16,7 @@ class ItemController extends Controller
 	public function detail(Request $req)
 	{
 		$item = Item::find($req->id);
+		session()->put('user_item_id', $item->id);
 		return view('item/detail', compact('item'));
 	}
 	public function form(Request $req)

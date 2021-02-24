@@ -23,12 +23,16 @@
 <td>{{ $item->quantity . ' 個'}}</td>
 </tr>
 </table>
-<label><p></p>
+<p></p>
 @if (0 < $item->quantity)
-<p>在庫あり</p>
+<form method="post" action="{{ route('cart.add') }}">
+{{ csrf_field() }}
+<button type="submit">カートに入れる</button>
+</form>
 @else
-<p>在庫なし</p>
+<label><p>在庫なし</p>
 @endif
+<label><p></p>
 @if (isLogin() && getUserType() == 'User')
 <p><a href="{{ route('item.index')}}">商品一覧へ</a></p>
 @elseif (isLogin() && getUserType() == 'Admin')

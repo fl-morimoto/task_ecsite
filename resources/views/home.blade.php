@@ -24,6 +24,9 @@
 <p><a href="{{ route('admin.item.form')}}">管理者商品追加へ</a></p>
 <p><a href="{{ route('admin.item.form', ['id' => '1']) }}">商品編集ページへ</a></p>
 @elseif (getUserType() == 'User')
+<p>カート</p>
+<p><a href="{{ route('cart.index')}}">カート一覧へ</a></p>
+<p>商品</p>
 <p><a href="{{ route('item.index')}}">商品一覧へ</a></p>
 <p><a href="{{ route('item.detail', ['id' => '1']) }}">商品詳細ページへ->1</a></p>
 @endif
