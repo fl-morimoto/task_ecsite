@@ -8,7 +8,7 @@
 <table>
 <tr>
 <td width="100">{{ '商品名: ' }}</td>
-<td width="100">{{ $item->name }}</td>
+<td width="300">{{ $item->name }}</td>
 </tr>
 <tr>
 <td>{{ '商品説明: ' }}</td>

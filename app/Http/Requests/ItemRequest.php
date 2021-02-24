@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ItemRequest extends FormRequest
@@ -23,11 +24,17 @@ class ItemRequest extends FormRequest
      */
     public function rules()
     {
+
         return [
-			'name' => 'required|string|max:191',
+			'name' => [
+				'required',
+				'string',
+				'max:191',
+				Rule::unique('items')->ignore(session()->get('admin_item_id')),
+			],
 			'content' => 'required|string|max:191',
-			'price' => 'required|integer',
-			'quantity' => 'required|integer',
+			'price' => 'required|integer|digits_between:1, 10|min:1',
+			'quantity' => 'required|integer|digits_between:1, 10|min:0',
         ];
     }
 }

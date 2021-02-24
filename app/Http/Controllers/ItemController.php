@@ -23,7 +23,7 @@ class ItemController extends Controller
 		if (!empty($req->id)) {
 			//編集 -> edit
 			$item = Item::find($req->id);
-			$id = $item->id;
+			session()->put('admin_item_id', $item->id);
 			$name = $item->name;
 			$content = $item->content;
 			$price = $item->price;
@@ -41,11 +41,13 @@ class ItemController extends Controller
 	public function create(ItemRequest $req)
    	{
 		(new Item)->fill($req->all())->save();
+		session()->put('admin_item_id', null);
 		return redirect(route('admin.item.index'))->with('true_message', '商品を追加しました。');
 	}
 	public function edit(ItemRequest $req)
 	{
 		(new Item)->edit($req);
+		session()->put('admin_item_id', null);
 		return redirect(route('admin.item.index'))->with('true_message', '商品を編集しました。');
 	}
 }

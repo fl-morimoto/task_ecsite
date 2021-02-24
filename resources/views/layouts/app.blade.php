@@ -149,8 +149,6 @@ Logout
 </div>
 </nav>
 
-@yield('content')
-</div>
 <div class="screen_wrap">
 <div class="container py-4">
 {{-- フラッシュメッセージの表示 --}}
@@ -166,6 +164,9 @@ session()->flash('is_succes', null);
 ?>
 </div>
 </div>
+<main class="mt-4">
+@yield('content')
+</main>
 
 <!-- Scripts -->
 <script src="{{ asset('js/app.js') }}"></script>
