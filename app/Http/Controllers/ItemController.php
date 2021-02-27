@@ -8,6 +8,11 @@ use App\Item;
 
 class ItemController extends Controller
 {
+	private $item;
+
+	public function __construct(Item $item) {
+		$this->item = new Item;
+	}
 	public function index()
 	{
 		$items = Item::all();
@@ -15,40 +20,26 @@ class ItemController extends Controller
 	}
 	public function detail(Request $req)
 	{
-		$item = Item::find($req->id);
-		session()->put('user_item_id', $item->id);
+		$item = Item::find(decrypt($req->id));
 		return view('item/detail', compact('item'));
 	}
 	public function form(Request $req)
    	{
 		if (!empty($req->id)) {
-			//編集 -> edit
-			$item = Item::find($req->id);
-			session()->put('admin_item_id', $item->id);
-			$name = $item->name;
-			$content = $item->content;
-			$price = $item->price;
-			$quantity = $item->quantity;
-			return view('item.form', compact('id', 'name', 'content', 'price', 'quantity'));
+			$item = Item::find(decrypt($req->id));
 		} else {
-			//追加 -> create
-			$name = '';
-			$content = '';
-			$price = '';
-			$quantity = '';
-			return view('item.form', compact('name', 'content', 'price', 'quantity'));
+			$item = new Item;
 		}
+		return view('item.form', compact('item'));
 	}
 	public function create(ItemRequest $req)
    	{
-		(new Item)->fill($req->all())->save();
-		session()->put('admin_item_id', null);
+		$this->item->fill($req->all())->save();
 		return redirect(route('admin.item.index'))->with('true_message', '商品を追加しました。');
 	}
 	public function edit(ItemRequest $req)
 	{
-		(new Item)->edit($req);
-		session()->put('admin_item_id', null);
+		$this->item->edit($req);
 		return redirect(route('admin.item.index'))->with('true_message', '商品を編集しました。');
 	}
 }

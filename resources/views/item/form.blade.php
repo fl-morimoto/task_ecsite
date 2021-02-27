@@ -1,22 +1,41 @@
 @extends('layouts.app')
 @section('content')
-<?php $is_validation_error = $errors->any() ?>
-@if ($is_validation_error)
-<div class="alert alert-danger">
-<ul>
-@foreach ($errors->all() as $error)
-<li>{{ $error }}</li>
-@endforeach
-</ul>
-</div>
 <?php
-$name = old('name');
-$content = old('content');
-$price = old('price');
-$quantity = old('quantity');
+//前処理
+$is_edit = false;
 ?>
+@if (!$errors->any())
+	<?php
+	if (!empty($item->id)) {
+		//編集
+		$is_edit = true;
+		$id = $item->id;
+	}
+	//追加
+	$name = $item->name;
+	$content = $item->content;
+	$price = $item->price;
+	$quantity = $item->quantity;
+	?>
+@else
+	<div class="alert alert-danger">
+		@foreach ($errors->all() as $error)
+			<ul>
+				<li>{{ $error }}</li>
+			</ul>
+		@endforeach
+	</div>
+	<?php
+	//バリデーションエラー時の編集
+	$id = old('id');
+	$name = old('name');
+	$content = old('content');
+	$price = old('price');
+	$quantity = old('quantity');
+	$is_edit = true;
+	?>
 @endif
-<?php $is_edit = !empty(session()->get('admin_item_id')); ?>
+
 @if ($is_edit)
 <?php $address = 'admin.item.edit'; ?>
 <h1>{{ '商品編集' }}</h1>
@@ -27,6 +46,9 @@ $quantity = old('quantity');
 <body>
 <form method="post" action="{{ route($address) }}">
 {{ csrf_field() }}
+@if ($is_edit)
+<p><input type="hidden" name="id" value="{{ encrypt($id) }}"></p>
+@endif
 <p><label>商品名:</label> <input type="text" name="name" value="{{ $name }}"></p>
 <p><label>説明:</label> <textarea name="content">{{ $content }}</textarea></p>
 <p><label>値段:</label> <input type="text" name="price" value="{{ $price }}"></p>

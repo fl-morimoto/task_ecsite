@@ -1,49 +1,65 @@
 @extends('layouts.app')
 
 @section('content')
-<label>
-<h1>商品詳細</h1>
-</label>
+@if ($errors->any())
+	<div class="alert alert-danger">
+		<ul>
+			@foreach ($errors->all() as $error)
+				<li>{{ $error }}</li>
+			@endforeach
+		</ul>
+	</div>
+@endif
+<div style="font-size: 16px;margin: 0px 0px 0px 20px">
+	@if ((isLogin() && getUserType() == 'User') || getUserType() == 'Guest')
+		<p><a href="{{ route('item.index')}}">商品一覧へ</a></p>
+	@elseif (isLogin() && getUserType() == 'Admin')
+		<p><a href="{{ route('admin.item.index') }}">商品一覧へ</a></p>
+		<p></p>
+		<p><a href="{{ route('admin.item.form', ['id' => encrypt($item->id)]) }}">商品編集へ</a></p>
+	@endif
+</div>
 @if (!empty($item))
-<table>
-<tr>
-<td width="100">{{ '商品名: ' }}</td>
-<td width="300">{{ $item->name }}</td>
-</tr>
-<tr>
-<td>{{ '商品説明: ' }}</td>
-<td>{{ $item->content }}</td>
-</tr>
-<tr>
-<td>{{ '価格: ' }}</td>
-<td>{{ $item->price . ' 円'}}</td>
-</tr>
-<tr>
-<td>{{ '在庫数: ' }}</td>
-<td>{{ $item->quantity . ' 個'}}</td>
-</tr>
-</table>
-<p></p>
-@if (0 < $item->quantity)
-<form method="post" action="{{ route('cart.add') }}">
-{{ csrf_field() }}
-<button type="submit">カートに入れる</button>
-</form>
+	<table>
+		<caption>商品詳細</caption>
+		<tr>
+			<td style="background-color:#e3f0fb; min-width: 200px">{{ '商品名: ' }}</td>
+			<td style="background-color:#f5f5f5; min-width: 300px">{{ $item->name }}</td>
+		</tr>
+		<tr>
+			<td style="background-color:#e3f0fb">{{ '商品説明: ' }}</td>
+			<td style="background-color:#f5f5f5">{{ $item->content }}</td>
+		</tr>
+		<tr>
+			<td style="background-color:#e3f0fb">{{ '価格: ' }}</td>
+			<td style="background-color:#f5f5f5">{{ $item->price . ' 円'}}</td>
+		</tr>
+		<tr>
+			<td style="background-color:#e3f0fb">{{ '在庫数: ' }}</td>
+			<td style="background-color:#f5f5f5">{{ $item->quantity . ' 個'}}</td>
+		</tr>
+		@if (0 < $item->quantity)
+			<form method="post" action="{{ route('cart.add') }}">
+			{{ csrf_field() }}
+			<input type="hidden" name="id" value="{{ encrypt($item->id) }}">
+			<tr>
+				<td style="padding: 20px 0px 20px 8px">購入数:
+					<input style="width:50px;" type="text" name="quantity" value="">
+				</td>
+				<td><button type="submit">カートに入れる</button></td>
+				</form>
+			</tr>
+		@else
+			<tr>
+				<td style="font-size: 14px">在庫なし</td>
+			</tr>
+		@endif
+		<p></p>
+	</table>
 @else
-<label><p>在庫なし</p>
-@endif
-<label><p></p>
-@if (isLogin() && getUserType() == 'User')
-<p><a href="{{ route('item.index')}}">商品一覧へ</a></p>
-@elseif (isLogin() && getUserType() == 'Admin')
-<p><a href="{{ route('admin.item.index') }}">商品一覧へ</a></p>
-<p></p>
-<p><a href="{{ route('admin.item.form', ['id' => $item->id]) }}">商品編集へ</a></p>
-@endif
-@else
-<p>その商品は存在しません。</p>
-</label>
+	<table>
+	<caption>その商品は存在しません。</caption>
+	</table>
 @endif
 @endsection
-
 

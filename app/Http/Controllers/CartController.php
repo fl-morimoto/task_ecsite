@@ -3,11 +3,19 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\CartRequest;
 use App\Cart;
 use App\Item;
 
 class CartController extends Controller
 {
+	private $cart;
+	private $item;
+
+	public function __construct() {
+		$this->cart = new Cart;
+		$this->item = new Item;
+	}
 	public function item() {
 		return $this->belongsTo('App\Item', 'item_id');
 	}
@@ -16,13 +24,18 @@ class CartController extends Controller
 		$carts = Cart::where('user_id', userinfo()->id)->get();
 		return view('cart/index', compact('carts'));
 	}
-	public function add() {
-		$item_id = session()->get('user_item_id');
+	public function add(CartRequest $req) {
+		$item_id = decrypt($req->id);
 		$item = Item::findOrFail($item_id);
-		//cartデータに書き込み
-		//とりあえず一つ追加するだけ
-		$cart = Cart::firstOrCreate(['user_id' => userInfo()->id, 'item_id' => $item_id], ['quantity' => 0]);
-
+		$stock_qty = $item->quantity;
+		$add_qty = $req->quantity;
+		if ($add_qty <= $stock_qty) {
+			//レコードがなければ個数0でinsert
+			$cart = Cart::firstOrCreate(['user_id' => userInfo()->id, 'item_id' => $item_id], ['quantity' => 0]);
+			//カート個数の増減
+			$cart->increment('quantity', $add_qty);
+			$item->decrement('quantity', $add_qty);
+		}
 	}
 	public function add_app() {
 		$item_id = session('id');

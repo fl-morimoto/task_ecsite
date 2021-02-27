@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class ItemRequest extends FormRequest
+class CartRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,21 +24,8 @@ class ItemRequest extends FormRequest
      */
     public function rules()
     {
-		$id = '';
-		if (!empty($this->id)) {
-			//編集時
-			$id = decrypt($this->id);
-		}
         return [
-			'name' => [
-				'required',
-				'string',
-				'max:191',
-				Rule::unique('items')->ignore($id),
-			],
-			'content' => 'required|string|max:191',
-			'price' => 'required|integer|digits_between:1, 10|min:1',
-			'quantity' => 'required|integer|digits_between:1, 10|min:0',
+			'quantity' => 'required|integer|digits_between:1, 10|min:1',
         ];
     }
 }
