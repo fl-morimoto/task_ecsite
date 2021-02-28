@@ -1,10 +1,12 @@
 @extends('layouts.app')
 @section('content')
-	@if (isLogin() && getUserType() == 'Admin')
-		<div style="font-size: 16px;margin: 0px 0px 0px 20px">
+	<div style="font-size: 16px;margin: 0px 0px 0px 20px">
+		@if (isLogin() && getUserType() == 'Admin')
 			<a href="{{ route('admin.item.form') }}">商品追加ページへ</a>
-		</div>
-	@endif
+		@elseif (isLogin() && getUserType() == 'User')
+			<a href="{{ route('cart.index') }}">カート一覧ページへ</a>
+		@endif
+	</div>
 	<table>
 		<caption>商品一覧</caption>
 		<tr style="background-color:#e3f0fb">

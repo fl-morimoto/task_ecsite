@@ -12,6 +12,7 @@ class Cart extends Model
 	use SoftDeletes;
 	protected $fillable = ['user_id', 'item_id', 'quantity'];
 	protected $table = 'carts';
+	protected $dates = ['deleted_at'];
 
 	public function item() {
 		return $this->belongsTo('App\Item', 'item_id');
@@ -21,17 +22,8 @@ class Cart extends Model
 		$result = $this->item->price * $this->quantity;
 		return $result;
 	}
-	public function addDb(int $item_id, $add_qty) {
-		$item = (new Item)->findOrFail($item_id);
-		$qty = $item->quantity;
-		if ($qty <= 0 || $qty < $add_qty) {
-			return false;
-		}
-		$cart = $this->firstOrCreate(['user_id' => Auth::id(), 'item_id' => $item_id],
-									['quantity' => 0]);
-		$cart->increment('quantity', $add_qty);
-		$item->decrement('quantity', $add_qty);
-		session()->forget('id');
-		return true;
+	public function total() {
+		$cart = $this->cart->all();
+		dd(cart);
 	}
 }

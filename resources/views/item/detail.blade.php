@@ -38,24 +38,28 @@
 			<td style="background-color:#e3f0fb">{{ '在庫数: ' }}</td>
 			<td style="background-color:#f5f5f5">{{ $item->quantity . ' 個'}}</td>
 		</tr>
+	</table>
+	@if (isLogin() && getUserType() == 'User')
 		@if (0 < $item->quantity)
-			<form method="post" action="{{ route('cart.add') }}">
-			{{ csrf_field() }}
-			<input type="hidden" name="id" value="{{ encrypt($item->id) }}">
 			<tr>
-				<td style="padding: 20px 0px 20px 8px">購入数:
-					<input style="width:50px;" type="text" name="quantity" value="">
-				</td>
-				<td><button type="submit">カートに入れる</button></td>
+				<form method="post" action="{{ route('cart.add') }}">
+					{{ csrf_field() }}
+					<input type="hidden" name="id" value="{{ encrypt($item->id) }}">
+					<td style="padding: 20px 0px 20px 8px">購入数:
+						<input style="width:50px;" type="text" name="quantity" value="">
+					</td>
+					<td><button type="submit">カートに入れる</button></td>
 				</form>
 			</tr>
 		@else
 			<tr>
-				<td style="font-size: 14px">在庫なし</td>
+				<td style="font-size: 14px">在庫無し</td>
 			</tr>
 		@endif
-		<p></p>
-	</table>
+	@elseif (getUserType() == 'Guest')
+		<p>ログインしてください</p>
+	@endif
+	<p></p>
 @else
 	<table>
 	<caption>その商品は存在しません。</caption>
