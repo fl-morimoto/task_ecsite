@@ -21,6 +21,8 @@ Route::group(['middleware' => 'auth:user'], function() {
     Route::get('cart/index', 'CartController@index')->name('cart.index');
     Route::post('cart/add', 'CartController@add')->name('cart.add');
     Route::post('cart/delete', 'CartController@delete')->name('cart.delete');
+    Route::get('address/index', 'AddressController@index')->name('address.index');
+    Route::post('address/add', 'AddressController@add')->name('address.add');
 });
 // Admin 認証不要
 Route::group(['prefix' => 'admin'], function() {
