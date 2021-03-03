@@ -1,6 +1,30 @@
 @extends('layouts.app')
 
 @section('content')
+<div class="container">
+<div class="row">
+<div class="col-md-8 col-md-offset-2">
+<div class="panel panel-default">
+	<div class="panel-heading">商品詳細</div>
+
+	<div class="panel-body">
+		<div class="row">
+			<div style="background-color:#e3f0fb; col-md-4 col-sm-4">{{ '商品名: ' }}</div>
+			<div style="background-color:#f5f5f5; col-sm-1">{{ $item->name }}</div>
+
+		</div>
+
+
+
+
+
+
+	</div>
+</div>
+</div>
+</div>
+</div>
+
 @if ($errors->any())
 	<div class="alert alert-danger">
 		<ul>
@@ -42,7 +66,7 @@
 	@if (isLogin() && getUserType() == 'User')
 		@if (0 < $item->quantity)
 			<tr>
-				<form method="post" action="{{ route('cart.add') }}">
+				<form method="post" action="{{ route('cart.insert') }}">
 					{{ csrf_field() }}
 					<input type="hidden" name="id" value="{{ encrypt($item->id) }}">
 					<td style="padding: 20px 0px 20px 8px">購入数:

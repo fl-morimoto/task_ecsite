@@ -21,7 +21,7 @@ class CartController extends Controller
 		return $this->belongsTo('App\Item', 'item_id');
 	}
 	public function index() {
-		$carts = Cart::where('user_id', userinfo()->id)->get();
+		$carts = $this->cart->where('user_id', userinfo()->id)->get();
 		$total = $this->total($carts);
 		return view('cart/index', compact('carts', 'total'));
 	}
@@ -32,9 +32,9 @@ class CartController extends Controller
 		}
 		return $total;
 	}
-	public function add(CartRequest $req) {
+	public function insert(CartRequest $req) {
 		$item_id = decrypt($req->id);
-		$item = Item::findOrFail($item_id);
+		$item = $this->item->findOrFail($item_id);
 		if (empty($item)) {
 			return redirect(route('cart.index'))->with('false_message', 'そのような商品はカートに入っていません。');
 		}
@@ -42,7 +42,7 @@ class CartController extends Controller
 		if ($cart_in_qty <= $item->quantity) {
 			DB::transaction(function() use($item, $item_id, $cart_in_qty) {
 				//recordがなければquantity=0でinsert
-				$cart = Cart::firstOrCreate(['user_id' => userInfo()->id, 'item_id' => $item_id], ['quantity' => 0]);
+				$cart = $this->cart->firstOrCreate(['user_id' => userInfo()->id, 'item_id' => $item_id], ['quantity' => 0]);
 				//quantityの増減
 				$cart->increment('quantity', $cart_in_qty);
 				$item->decrement('quantity', $cart_in_qty);
@@ -54,10 +54,10 @@ class CartController extends Controller
 	}
 	public function delete(Request $req) {
 		$cart_id = decrypt($req->cart_id);
-		$cart = Cart::findOrFail($cart_id);
-		$item = Item::findOrFail($cart->item_id);
+		$cart = $this->cart->findOrFail($cart_id);
+		$item = $this->item->findOrFail($cart->item_id);
 		DB::transaction(function() use($cart, $item) {
-			Cart::find($cart->id)->delete();
+			$this->cart->find($cart->id)->delete();
 			$item->increment('quantity', $cart->quantity);
 		});
 		return redirect(route('cart.index'))->with('true_message', '商品をカートから削除しました。');

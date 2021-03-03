@@ -15,31 +15,31 @@ class ItemController extends Controller
 	}
 	public function index()
 	{
-		$items = Item::all();
+		$items = $this->item::all();
 		return view('item/index', compact('items'));
 	}
 	public function detail(Request $req)
 	{
-		$item = Item::find(decrypt($req->id));
+		$item = $this->item::find(decrypt($req->id));
 		return view('item/detail', compact('item'));
 	}
 	public function form(Request $req)
    	{
 		if (!empty($req->id)) {
-			$item = Item::find(decrypt($req->id));
+			$item = $this->item::find(decrypt($req->id));
 		} else {
 			$item = new Item;
 		}
 		return view('item.form', compact('item'));
 	}
-	public function create(ItemRequest $req)
+	public function insert(ItemRequest $req)
    	{
 		$this->item->fill($req->all())->save();
 		return redirect(route('admin.item.index'))->with('true_message', '商品を追加しました。');
 	}
-	public function edit(ItemRequest $req)
+	public function update(ItemRequest $req)
 	{
-		$this->item->edit($req);
+		$this->item->execUpdate($req);
 		return redirect(route('admin.item.index'))->with('true_message', '商品を編集しました。');
 	}
 }

@@ -19,10 +19,13 @@ Route::get('/item/detail', 'ItemController@detail')->name('item.detail');
 Route::group(['middleware' => 'auth:user'], function() {
     Route::get('home', 'HomeController@index')->name('home');
     Route::get('cart/index', 'CartController@index')->name('cart.index');
-    Route::post('cart/add', 'CartController@add')->name('cart.add');
+    Route::post('cart/insert', 'CartController@insert')->name('cart.insert');
     Route::post('cart/delete', 'CartController@delete')->name('cart.delete');
     Route::get('address/index', 'AddressController@index')->name('address.index');
-    Route::post('address/add', 'AddressController@add')->name('address.add');
+    Route::post('address/insert', 'AddressController@insert')->name('address.insert');
+    Route::get('address/updateForm', 'AddressController@updateForm')->name('address.updateForm');
+    Route::get('address/delete', 'AddressController@delete')->name('address.delete');
+    Route::post('address/update', 'AddressController@update')->name('address.update');
 });
 // Admin 認証不要
 Route::group(['prefix' => 'admin'], function() {
@@ -36,8 +39,8 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function() {
 	//ログイン後のリダイレクト先
     Route::get('item/index', 'ItemController@index')->name('admin.item.index');
     Route::get('item/form', 'ItemController@form')->name('admin.item.form');
-    Route::post('item/create', 'ItemController@create')->name('admin.item.create');
-    Route::post('item/edit', 'ItemController@edit')->name('admin.item.edit');
+    Route::post('item/insert', 'ItemController@insert')->name('admin.item.insert');
+    Route::post('item/update', 'ItemController@update')->name('admin.item.update');
     Route::get('item/detail', 'ItemController@detail')->name('admin.item.detail');
 });
 

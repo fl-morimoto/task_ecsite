@@ -3,7 +3,8 @@
 <body>
 <div style="font-size: 16px;margin: 0px 0px 20px 20px">
 	@if (isLogin() && getUserType() == 'User')
-		<a href="{{ route('item.index') }}">商品一覧ページへ</a>
+		<p><a href="{{ route('item.index') }}">商品一覧ページへ</a></p>
+		<p><a href="{{ route('address.index') }}">お届け先選択ページへ</a></p>
 	@endif
 </div>
 @if (0 < $carts->count())
