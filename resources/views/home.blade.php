@@ -7,8 +7,8 @@
 			<div class="panel panel-default">
 				<div class="panel-heading">
 					{{ $user->name . 'さん: ' }}
-					{{ $user->id . ', ' }}
-					{{ $user->email }}
+					{{ 'ID: ' . $user->id . ', ' }}
+					{{ 'email: ' . $user->email }}
 					{{ '属性: ' . getUserType() }}
 				</div>
 				<div class="panel-body">
@@ -35,7 +35,7 @@
 							{{ session('status') }}
 						</div>
 					@endif
-					You are logged in!
+					サイトマップ
 				</div>
 			</div>
 		</div>

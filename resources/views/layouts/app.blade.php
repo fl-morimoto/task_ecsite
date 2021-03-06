@@ -62,6 +62,16 @@
 						@if (isLogin() && getUserType() == 'User')
 						<ul class="dropdown-menu">
 							<li>
+								<a href="{{ route('account.detail') }}"
+									onclick="event.preventDefault();
+									document.getElementById('user-detail').submit();">
+									ユーザー情報編集
+								</a>
+								<form id="user-detail" action="{{ route('account.detail') }}" method="GET" style="display: none;">
+									{{ csrf_field() }}
+								</form>
+							</li>
+							<li>
 								<a href="{{ route('logout') }}"
 									onclick="event.preventDefault();
 									document.getElementById('logout-form').submit();">
