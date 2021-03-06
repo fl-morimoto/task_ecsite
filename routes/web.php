@@ -27,6 +27,8 @@ Route::group(['middleware' => 'auth:user'], function() {
     Route::get('address/delete', 'AddressController@delete')->name('address.delete');
     Route::post('address/update', 'AddressController@update')->name('address.update');
     Route::get('account/detail', 'AccountController@detail')->name('account.detail');
+    Route::post('account/update', 'AccountController@update')->name('account.update');
+    Route::get('account/updateEmail', 'AccountController@updateEmail')->name('account.updateEmail');
 });
 // Admin 認証不要
 Route::group(['prefix' => 'admin'], function() {

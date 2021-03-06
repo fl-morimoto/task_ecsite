@@ -25,6 +25,8 @@
 					<p><a href="{{ route('item.detail', ['id' => encrypt('1')]) }}">商品詳細ページへ->1</a></p>
 					<p>住所</p>
 					<p><a href="{{ route('address.index') }}">住所一覧へ</a></p>
+					<p>アカウント</p>
+					<p><a href="{{ route('account.detail') }}">ユーザー編集へ</a></p>
 					@endif
 				</div>
 				<div class="panel-footer">
