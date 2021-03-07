@@ -28,7 +28,7 @@ class AddressRequest extends FormRequest
            'state' => 'required|string|max:5',
            'city' => 'required|string|max:20',
            'street' => 'required|string|max:20',
-           'tel' => 'required|regex:/(0)[0-9]{10}/',
+           'tel' => 'required|regex:/(0)[0-9]{10}/|digits_between:10, 11',
         ];
     }
 }

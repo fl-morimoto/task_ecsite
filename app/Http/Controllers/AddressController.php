@@ -18,9 +18,14 @@ class AddressController extends Controller
 		$address = new Address;
 		return view('address.index', compact('addresses', 'address'));
 	}
+	private function md5Address(Request $ad) {
+		$param = userInfo()->id . $ad->zip . $ad->state . $ad->city . $ad->street . $ad->tel;
+		$hashParam = md5($param);
+		return $hashParam;
+	}
 	//要バリデーション
 	public function insert(AddressRequest $req) {
-		$md5_address = $this->address->md5Address($req);
+		$md5_address = $this->md5Address($req);
 		$is_new = $this->address->where('address_sum', $md5_address)->get()->isEmpty();
 		if ($is_new) {
 			$req->merge(['user_id' => userInfo()->id]);
