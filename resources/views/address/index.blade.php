@@ -18,12 +18,12 @@
 	?>
 @endif
 @if (!empty($addresses))
-	<p><a href="{{ route('cart.index') }}">カート一覧ページへ</a></p>
-	<div class="container">
-	<div class="row">
-	<div class="col-md-8 col-md-offset-2">
-	<div class="panel panel-default">
-	<div class="panel-heading">お届け先一覧</div>
+<p><a href="{{ route('cart.index') }}">カート一覧ページへ</a></p>
+<div class="container">
+<div class="row">
+<div class="col-md-8 col-md-offset-2">
+<div class="panel panel-default">
+<div class="panel-heading">お届け先一覧</div>
 @endif
 	<div class="panel-body">
 		@if (!empty($addresses))
@@ -60,17 +60,19 @@
 						@endforeach
 					@else
 						<tr>
-							<td><p>登録された住所がありません。</p></td>
+							<td>登録された住所がありません。</td>
 						</tr>
 					@endif
 				</tbody>
 			</table>
 		@endif
 	</div>
+@if (!empty($addresses))
 </div>
 </div>
 </div>
 </div>
 </div>
+@endif
 @include('address.form', ['address' => $address])
 @endsection

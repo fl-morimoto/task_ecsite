@@ -104,10 +104,6 @@ $is_edit = false;
 							@endif
 						</div>
 					</div>
-					<!--p><label>商品名:</label> <input type="text" name="name" value="{{ $name }}"></p>
-					<p><label>説明:</label> <textarea name="content">{{ $content }}</textarea></p>
-					<p><label>値段:</label> <input type="text" name="price" value="{{ $price }}"></p>
-					<p><label>在庫:</label> <input type="text" name="quantity" value="{{ $quantity }}"></p-->
 					<div class="col-md-3">
 						<p><button type="submit">登録</button></p>
 					</div>

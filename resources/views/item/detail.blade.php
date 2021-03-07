@@ -28,45 +28,41 @@
 			@if (!empty($item))
 				<table class="table">
 					<tbody>
-					<tr>
-						<td style="min-width: 200px">{{ '商品名: ' }}</td>
-						<td style="min-width: 300px">{{ $item->name }}</td>
-					</tr>
-					<tr>
-						<td>{{ '商品説明: ' }}</td>
-						<td>{{ $item->content }}</td>
-					</tr>
-					<tr>
-						<td>{{ '価格: ' }}</td>
-						<td>{{ $item->price . ' 円'}}</td>
-					</tr>
-					<tr>
-						<td>{{ '在庫数: ' }}</td>
-						<td>{{ $item->quantity . ' 個'}}</td>
-					</tr>
+						<tr>
+							<td style="min-width: 200px">{{ '商品名: ' }}</td>
+							<td style="min-width: 300px">{{ $item->name }}</td>
+						</tr>
+						<tr>
+							<td>{{ '商品説明: ' }}</td>
+							<td>{{ $item->content }}</td>
+						</tr>
+						<tr>
+							<td>{{ '価格: ' }}</td>
+							<td>{{ $item->price . ' 円'}}</td>
+						</tr>
+						<tr>
+							<td>{{ '在庫数: ' }}</td>
+							<td>{{ $item->quantity . ' 個'}}</td>
+						</tr>
 					</tbody>
 				</table>
 				@if (isLogin() && getUserType() == 'User')
 					<div class="panel-footer">
 						@if (0 < $item->quantity)
-							<tr>
-								<form method="post" action="{{ route('cart.insert') }}">
-									{{ csrf_field() }}
-									<input type="hidden" name="id" value="{{ encrypt($item->id) }}">
-									<td style="padding: 20px 0px 20px 8px">購入数:
-										<input style="width:50px;" type="text" name="quantity" value="">
-									</td>
-									<td><button type="submit">カートに入れる</button></td>
-								</form>
-							</tr>
+							<form method="post" action="{{ route('cart.insert') }}">
+								{{ csrf_field() }}
+								<input type="hidden" name="id" value="{{ encrypt($item->id) }}">
+								<div style="padding: 20px 0px 20px 8px">購入数:
+									<input style="width:50px;" type="text" name="quantity" value="">
+									<button type="submit">カートに入れる</button>
+								</div>
+							</form>
 						@else
-							<tr>
-								<td style="font-size: 14px">在庫無し</td>
-							</tr>
+							<div style="font-size: 14px">在庫無し</div>
 						@endif
 					</div>
 				@elseif (getUserType() == 'Guest')
-					<p>ログインしてください</p>
+					<div>ログインしてください</div>
 				@endif
 				<p></p>
 			@else

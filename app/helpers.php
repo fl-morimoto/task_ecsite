@@ -32,3 +32,8 @@ if (! function_exists('isAdminRoute')) {
 		return strpos(\Route::currentRouteName(), 'admin') !== false;
 	}
 }
+if (! function_exists('isAdminLogin')) {
+	function isAdminLogin() {
+		return isAdminRoute() && strpos(\Route::currentRouteName(), 'login') !== false;
+	}
+}

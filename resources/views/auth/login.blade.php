@@ -8,7 +8,7 @@
 	<div class="panel-heading">Login</div>
 
 	<div class="panel-body">
-		@if (!isLogin() && isAdminRoute())
+		@if ((!isLogin() && isAdminRoute()) || (getUserType() == 'User' && isAdminLogin()))
 		<form class="form-horizontal" method="POST" action="{{ route('admin.login') }}">
 		@elseif (!isLogin() && !isAdminRoute())
 		<form class="form-horizontal" method="POST" action="{{ route('login') }}">
