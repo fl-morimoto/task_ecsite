@@ -2,12 +2,12 @@
 @section('content')
 <?php
 if (empty(old('name'))) {
-	$name = $user->name;
+  $name = $user->name;
 } else {
 	$name = old('name');
 }
 if (empty(old('email'))) {
-	$email = $user->email;
+  $email = $user->email;
 } else {
 	$email = old('email');
 }

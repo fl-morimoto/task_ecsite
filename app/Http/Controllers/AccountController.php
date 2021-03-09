@@ -25,6 +25,9 @@ class AccountController extends Controller
 	private function makeNewPassword($req, $user) {
 		//新パスワードの初期設定
 		if (!empty($req->new_pass)) {
+			if (mb_strlen($req->new_pass) < 6) {
+				return false;
+			}
 			$new_pass = Hash::make($req->new_pass);
 		} else {
 			$new_pass = $user->password;
@@ -33,7 +36,7 @@ class AccountController extends Controller
 	}
 	private function sendMail($token, $user, $req) {
 		$url = config('const.Urls.PUBLIC') . 'account/updateEmail?token=' . $token;
-		$body = 'URL先を開いてemailの変更を確認してください。' . "\n" . $url;
+		$body = 'URL先を開いてユーザー情報の変更を完了してください。' . "\n" . $url;
 		Mail::raw($body, function ($m) use (&$user, &$req) {
 			$m->from('hello@app.com', 'from :ecsite - user info');
 			$m->to($req->email, $user->name)->subject('ユーザー情報変更の確認メールです');
@@ -42,6 +45,9 @@ class AccountController extends Controller
 	public function update(AccountRequest $req) {
 		$user = $this->user->find(userInfo()->id);
 		$new_pass = $this->makeNewPassword($req, $user);
+		if (!$new_pass) {
+			return redirect(route('account.detail'))->with('false_message', 'パスワードは6文字以上にしてください。');
+		}
 		//現在パスワードの確認 -> ガード節
 		$check_pass = Hash::check($req->current_pass, $user->password);
 		if (!$check_pass) {
@@ -61,7 +67,7 @@ class AccountController extends Controller
 			//emailの変更があればメール送信
 			$this->sendmail($token, $user, $req);
 			$this->change_user->save();
-			return redirect(route('account.detail'))->with('true_message', 'emailはまだ更新されていません。' . "\n" . 'メールを確認して更新処理を完了してください。');
+			return redirect(route('account.detail'))->with('true_message', 'ユーザー情報はまだ更新されていません。' . "\n" . 'メールを確認して更新処理を完了してください。');
 		} else {
 			//emailの更新がなければ直にデータを更新
 			$change_userinfo = $user->name != $this->change_user->new_name || $user->email != $this->change_user->new_email || !empty($req->new_pass);
@@ -82,7 +88,7 @@ class AccountController extends Controller
 		$user = $this->user->find(userInfo()->id);
 		$token = $req->input('token');
 		$change_user = $this->change_user->where(['update_token' => $token, 'user_id' => userInfo()->id])->first();
-		if (Carbon::now()->subMinutes(30) <= $change_user->create_at) {
+		if (!empty($chenge_user) && Carbon::now()->subMinutes(30) <= $change_user->created_at) {
 			//30分以内なら
 			$user->fill([
 				'name' => $change_user->new_name,

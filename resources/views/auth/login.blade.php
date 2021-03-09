@@ -43,11 +43,13 @@
 			</div>
 			<div class="col-md-6 col-md-offset-4">
 				@if (!isAdminRoute())
-				<p>email: testUser@aaa.com</p>
-				<p>pass: 11111111</p>
+					<p>email: testUser@aaa.com</p>
+					<p>pass: 11111111</p>
+					<p><a href="{{ route('admin.login') }}">管理者ログインはこちらから</a></p>
 				@else
-				<p>email: admin@aaa.com</p>
-				<p>pass: 11111111</p>
+					<p>email: admin@aaa.com</p>
+					<p>pass: 11111111</p>
+					<p><a href="{{ route('login') }}">ユーザーログインはこちらから</a></p>
 				@endif
 			</div>
 			<div class="form-group">
