@@ -35,11 +35,13 @@ $is_edit = false;
 	$is_edit = true;
 	?>
 @endif
-@if (isLogin() && getUserType() == 'Admin')
-	<p><a href="{{ route('admin.item.index') }}">商品一覧へ戻る</a></p>
-@else
-	<p><a href="{{ route('item.index') }}">商品一覧へ戻る</a></p>
-@endif
+<div style="font-size: 16px;margin: 0px 0px 20px 20px">
+	@if (isLogin() && getUserType() == 'Admin')
+		<p><a href="{{ route('admin.item.index') }}">商品一覧へ戻る</a></p>
+	@else
+		<p><a href="{{ route('item.index') }}">商品一覧へ戻る</a></p>
+	@endif
+</div>
 <div class="container">
 <div class="row">
 <div class="col-md-8 col-md-offset-2">

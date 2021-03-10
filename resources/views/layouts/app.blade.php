@@ -84,6 +84,16 @@
 				@elseif (isLogin() && getUserType() == 'Admin')
 						<ul class="dropdown-menu">
 							<li>
+								<a href="{{ route('admin.account.index') }}"
+									onclick="event.preventDefault();
+									document.getElementById('user-detail').submit();">
+									ユーザー情報一覧
+								</a>
+								<form id="user-detail" action="{{ route('admin.account.index') }}" method="GET" style="display: none;">
+									{{ csrf_field() }}
+								</form>
+							</li>
+							<li>
 								<a href="{{ route('admin.logout') }}"
 									onclick="event.preventDefault();
 									document.getElementById('logout-form').submit();">

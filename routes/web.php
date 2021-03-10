@@ -44,6 +44,8 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function() {
 	Route::post('item/insert', 'ItemController@insert')->name('admin.item.insert');
 	Route::post('item/update', 'ItemController@update')->name('admin.item.update');
 	Route::get('item/detail', 'ItemController@detail')->name('admin.item.detail');
+	Route::get('account/index', 'AccountController@index')->name('admin.account.index');
+	Route::get('account/detail', 'AccountController@adminDetail')->name('admin.detailForAdmin');
 });
 
 

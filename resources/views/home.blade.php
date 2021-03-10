@@ -14,15 +14,17 @@
 				<div class="panel-body">
 					@if (getUserType() == 'Admin')
 					<p><a href="{{ route('admin.item.index')}}">管理者商品一覧へ</a></p>
-					<p><a href="{{ route('admin.item.detail', ['id' => encrypt('1')]) }}">管理者商品詳細ページへ->1</a></p>
+					<p><a href="{{ route('admin.item.detail', ['id' => encrypt('1')]) }}">管理者商品詳細[1]ページへ</a></p>
 					<p><a href="{{ route('admin.item.form')}}">管理者商品追加へ</a></p>
 					<p><a href="{{ route('admin.item.form', ['id' => encrypt('1')]) }}">商品編集ページへ</a></p>
+					<p><a href="{{ route('admin.account.index') }}">ユーザー一覧ページへ</a></p>
+					<p><a href="{{ route('admin.detailForAdmin', ['id' => encrypt('2')]) }}">ユーザー詳細[2]へ</a></p>
 					@elseif (getUserType() == 'User')
 					<p>カート</p>
 					<p><a href="{{ route('cart.index')}}">カート一覧へ</a></p>
 					<p>商品</p>
 					<p><a href="{{ route('item.index')}}">商品一覧へ</a></p>
-					<p><a href="{{ route('item.detail', ['id' => encrypt('1')]) }}">商品詳細ページへ->1</a></p>
+					<p><a href="{{ route('item.detail', ['id' => encrypt('1')]) }}">商品詳細[1]ページへ</a></p>
 					<p>住所</p>
 					<p><a href="{{ route('address.index') }}">住所一覧へ</a></p>
 					<p>アカウント</p>

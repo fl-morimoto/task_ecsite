@@ -7,20 +7,32 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use App\Http\Requests\AccountRequest;
 use App\User;
+use App\Address;
 use App\ChangeUser;
 use Carbon\Carbon;
 
 class AccountController extends Controller
 {
+	private $address;
 	private $user;
 	private $change_user;
-	public function __construct(User $user, ChangeUser $change_user) {
+	public function __construct(Address $address, User $user, ChangeUser $change_user) {
 		$this->user = $user;
+		$this->address = $address;
 		$this->change_user = $change_user;
 	}
+	public function index() {
+		$users = $this->user->all();
+		return view('account.index', compact('users'));
+	}
 	public function detail() {
-		$user = userInfo();
+		$user = $this->user->find(userInfo()->id);
 		return view('account.detail', compact('user'));
+	}
+	public function adminDetail(Request $req) {
+		$user = $this->user->find(decrypt($req->id));
+		$addresses = $this->address->where('user_id', decrypt($req->id))->get();
+		return view('account.detailForAdmin', compact('user', 'addresses'));
 	}
 	private function makeNewPassword($req, $user) {
 		//新パスワードの初期設定
@@ -88,7 +100,10 @@ class AccountController extends Controller
 		$user = $this->user->find(userInfo()->id);
 		$token = $req->input('token');
 		$change_user = $this->change_user->where(['update_token' => $token, 'user_id' => userInfo()->id])->first();
-		if (!empty($chenge_user) && Carbon::now()->subMinutes(30) <= $change_user->created_at) {
+		if (empty($change_user)) {
+			return redirect(route('account.detail'))->with('false_message', 'このURLは無効です。');
+		}
+		if (Carbon::now()->subMinutes(30) < $change_user->created_at) {
 			//30分以内なら
 			$user->fill([
 				'name' => $change_user->new_name,

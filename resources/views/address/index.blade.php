@@ -18,7 +18,9 @@
 	?>
 @endif
 @if (!empty($addresses))
-<p><a href="{{ route('cart.index') }}">カート一覧ページへ</a></p>
+<div style="font-size: 16px;margin: 0px 0px 20px 20px">
+	<p><a href="{{ route('cart.index') }}">カート一覧ページへ</a></p>
+</div>
 <div class="container">
 <div class="row">
 <div class="col-md-8 col-md-offset-2">
@@ -30,12 +32,12 @@
 			<table style="border-bottom: 1px solid #e0e0e0;">
 				<tbody>
 					<tr>
-						<th>{{ '選択' }}</th>
-						<th>{{ '郵便番号' }}</th>
-						<th>{{ '都道府県' }}</th>
-						<th>{{ '市' }}</th>
-						<th>{{ '番地' }}</th>
-						<th>{{ '電話番号' }}</th>
+						<th style="width=150px">{{ '選択' }}</th>
+						<th style="width=150px">{{ '郵便番号' }}</th>
+						<th style="width=150px">{{ '都道府県' }}</th>
+						<th style="width=150px">{{ '市' }}</th>
+						<th style="width=150px">{{ '番地' }}</th>
+						<th style="width=150px">{{ '電話番号' }}</th>
 					</tr>
 					@if (!$addresses->isEmpty())
 						@foreach ($addresses as $index => $add)
