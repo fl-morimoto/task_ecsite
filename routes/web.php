@@ -29,6 +29,12 @@ Route::group(['middleware' => 'auth:user'], function() {
 	Route::get('account/detail', 'AccountController@detail')->name('account.detail');
 	Route::post('account/update', 'AccountController@update')->name('account.update');
 	Route::get('account/updateEmail', 'AccountController@updateEmail')->name('account.updateEmail');
+
+	Route::get('cart/insert', function () { return redirect(route('cart.index')); });
+	Route::get('cart/delete', function () { return redirect(route('cart.index')); });
+	Route::get('address/insert', function () { return redirect(route('address.index')); });
+	Route::get('address/update', function () { return redirect(route('address.index')); });
+	Route::get('account/update', function () { return redirect(route('account.detail')); });
 });
 // Admin 認証不要
 Route::group(['prefix' => 'admin'], function() {
@@ -45,7 +51,10 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function() {
 	Route::post('item/update', 'ItemController@update')->name('admin.item.update');
 	Route::get('item/detail', 'ItemController@detail')->name('admin.item.detail');
 	Route::get('account/index', 'AccountController@index')->name('admin.account.index');
-	Route::get('account/detail', 'AccountController@adminDetail')->name('admin.detailForAdmin');
+	Route::get('account/detail', 'AccountController@detailForAdmin')->name('admin.detailForAdmin');
+
+	Route::get('item/insert', function () { return redirect(route('admin.item.index')); });
+	Route::get('item/update', function () { return redirect(route('admin.item.index')); });
 });
 
 

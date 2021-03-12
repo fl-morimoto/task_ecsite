@@ -33,7 +33,10 @@ class CartController extends Controller
 		return $total;
 	}
 	public function insert(CartRequest $req) {
-		$item_id = decrypt($req->id);
+		$item_id = decryptOrNull($req->id);
+		if (empty($item_id)) {
+			return redirect(route('item.index'))->with('false_message', 'アクセスIDが不正です。');
+		}
 		$item = $this->item->findOrFail($item_id);
 		if (empty($item)) {
 			return redirect(route('cart.index'))->with('false_message', 'そのような商品はカートに入っていません。');
@@ -53,7 +56,11 @@ class CartController extends Controller
 		}
 	}
 	public function delete(Request $req) {
-		$cart_id = decrypt($req->cart_id);
+		$cart_id = decryptOrNull($req->cart_id);
+		if (empty($cart_id)) {
+			return redirect(route('cart.index'))->with('false_message', 'アクセスIDが不正です。');
+		}
+
 		$cart = $this->cart->findOrFail($cart_id);
 		$item = $this->item->findOrFail($cart->item_id);
 		DB::transaction(function() use($cart, $item) {

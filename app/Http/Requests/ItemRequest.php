@@ -20,21 +20,22 @@ class ItemRequest extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array
+     * @return arrayj
      */
+	public function all($keys = null) {
+		$results = parent::all($keys);
+		$results['decrypt_id'] = decryptOrNull($this->input('id'));
+		return $results;
+	}
     public function rules()
     {
-		$id = '';
-		if (!empty($this->id)) {
-			//編集時
-			$id = decrypt($this->id);
-		}
         return [
+			'decrypt_id' => 'required',
 			'name' => [
 				'required',
 				'string',
 				'max:191',
-				Rule::unique('items')->ignore($id),
+				Rule::unique('items')->ignore(decryptOrNull($this->id)),
 			],
 			'content' => 'required|string|max:191',
 			'price' => 'required|integer|digits_between:1, 10|min:1',

@@ -37,7 +37,10 @@ class AddressController extends Controller
 		}
 	}
 	public function updateForm(Request $req) {
-		$address_id = decrypt($req->input('id'));
+		$address_id = decryptOrNull($req->input('id'));
+		if (empty($address_id)) {
+			return redirect(route('address.index'))->with('false_message', 'アクセスIDが不正です。');
+		}
 		$address = $this->address->find($address_id);
 		if (!empty($address)) {
 			return view('address.index', compact('address'));
@@ -47,7 +50,13 @@ class AddressController extends Controller
 	}
 	//要バリデーション
 	public function update(AddressRequest $req) {
-		$address_id = decrypt($req->input('id'));
+		if (empty($req)) {
+			return redirect(route('address.index'))->with('false_message', '無効な操作です。');
+		}
+		$address_id = decryptOrNull($req->input('id'));
+		if (empty($address_id)) {
+			return redirect(route('address.index'))->with('false_message', 'アクセスIDが不正です。');
+		}
 		$address = $this->address->find($address_id);
 		$address->zip = $req->zip;
 		$address->state = $req->state;
@@ -58,7 +67,10 @@ class AddressController extends Controller
 		return redirect(route('address.index'))->with('true_message', '住所を編集しました。');
 	}
 	public function delete(Request $req) {
-		$address_id = decrypt($req->input('id'));
+		$address_id = decryptOrNull($req->input('id'));
+		if (empty($address_id)) {
+			return redirect(route('address.index'))->with('false_message', 'アクセスIDが不正です。');
+		}
 		$address = $this->address->find($address_id);
 		if (!empty($address)) {
 			$address->delete();

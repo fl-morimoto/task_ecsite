@@ -1,6 +1,17 @@
 <?php
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Contracts\Encryption\DecryptException;
 
+if (! function_exists('decryptOrNull')) {
+	function decryptOrNull($value) {
+		try {
+			$val = decrypt($value);
+			return $val;
+		} catch (DecryptException $e) {
+			return null;
+		}
+	}
+}
 if (! function_exists('userInfo')) {
 	function userInfo() {
 		return Auth::guard()->user();

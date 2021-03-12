@@ -29,9 +29,13 @@ class AccountController extends Controller
 		$user = $this->user->find(userInfo()->id);
 		return view('account.detail', compact('user'));
 	}
-	public function adminDetail(Request $req) {
-		$user = $this->user->find(decrypt($req->id));
-		$addresses = $this->address->where('user_id', decrypt($req->id))->get();
+	public function detailForAdmin(Request $req) {
+		$user_id = decryptOrNull($req->id);
+		if (empty($user_id)) {
+			return redirect(route('admin.account.index'))->with('false_message', 'アクセスIDが不正です。');
+		}
+		$user = $this->user->find($user_id);
+		$addresses = $this->address->where('user_id', $user_id)->get();
 		return view('account.detailForAdmin', compact('user', 'addresses'));
 	}
 	private function makeNewPassword($req, $user) {
