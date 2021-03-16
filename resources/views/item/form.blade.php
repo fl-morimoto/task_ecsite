@@ -11,7 +11,7 @@ $is_edit = false;
 		$is_edit = true;
 		$id = $item->id;
 	}
-	//追加
+	//追加、編集共通
 	$name = $item->name;
 	$content = $item->content;
 	$price = $item->price;
@@ -32,6 +32,7 @@ $is_edit = false;
 	$content = old('content');
 	$price = old('price');
 	$quantity = old('quantity');
+	$image = old('image');
 	$is_edit = true;
 	?>
 @endif
@@ -57,11 +58,12 @@ $is_edit = false;
 		</div>
 		<div class="panel-body">
 			<tbody>
+				@if ($is_edit)
+				<form method="post" action="{{ route($address) }}" enctype="multipart/form-data">
+				@else
 				<form method="post" action="{{ route($address) }}">
+				@endif
 					{{ csrf_field() }}
-					@if ($is_edit)
-					<p><input type="hidden" name="id" value="{{ encrypt($id) }}"></p>
-					@endif
 					<div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
 						<label for="name" class="col-md-3 control-label">商品名</label>
 						<div class="col-md-7">
@@ -106,6 +108,20 @@ $is_edit = false;
 							@endif
 						</div>
 					</div>
+					@if ($is_edit)
+					<p><input type="hidden" name="id" value="{{ encrypt($id) }}"></p>
+					<div class="form-group{{ $errors->has('image') ? ' has-error' : '' }}">
+						<label for="image" class="col-md-3 control-label">商品画像</label>
+						<div class="col-md-7">
+							<input id="image" type="file" class="form-control" name="image">
+							@if ($errors->has('quantity'))
+								<span class="help-block">
+								<strong>{{ $errors->first('image') }}</strong>
+								</span>
+							@endif
+						</div>
+					</div>
+					@endif
 					<div class="col-md-3">
 						<p><button type="submit">登録</button></p>
 					</div>

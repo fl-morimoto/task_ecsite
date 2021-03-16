@@ -51,7 +51,7 @@ class AccountController extends Controller
 		return $new_pass;
 	}
 	private function sendMail($token, $user, $req) {
-		$url = config('const.Urls.PUBLIC') . 'account/updateEmail?token=' . $token;
+		$url = asset('account/updateEmail?token=' . $token);
 		$body = 'URL先を開いてユーザー情報の変更を完了してください。' . "\n" . $url;
 		Mail::raw($body, function ($m) use (&$user, &$req) {
 			$m->from('hello@app.com', 'from :ecsite - user info');

@@ -13,7 +13,7 @@
 	<div class="panel-heading">カート一覧</div>
 		<div class="panel-body">
 			@if (0 < $carts->count())
-				<table class="table">
+				<table class="table-striped table-condensed" style="font-size:16px">
 					<tbody>
 						<tr style="background-color:#f5f5f5">
 							<th width="200">商品名</th>

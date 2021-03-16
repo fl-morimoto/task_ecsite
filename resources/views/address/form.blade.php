@@ -1,6 +1,3 @@
-@php
-//dd($address);
-@endphp
 @if (!empty($address->id))
 <div style="font-size: 16px;margin: 0px 0px 20px 20px">
 	<p><a href="{{ route('address.index') }}">住所一覧ページへ</a></p>

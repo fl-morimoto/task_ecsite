@@ -1,6 +1,14 @@
 @extends('layouts.app')
 
 @section('content')
+<?php
+if (!empty($item->image_name)) {
+	$image_name = $item->image_name;
+} else {
+	$image_name = 'noPhoto.png';
+}
+
+?>
 @if ($errors->any())
 	<div class="alert alert-danger">
 		<ul>
@@ -26,28 +34,29 @@
 	<div class="panel-heading">商品詳細</div>
 		<div class="panel-body">
 			@if (!empty($item))
-				<table class="table">
-					<tbody>
-						<tr>
-							<td style="min-width: 200px">{{ '商品名: ' }}</td>
-							<td style="min-width: 300px">{{ $item->name }}</td>
-						</tr>
-						<tr>
-							<td>{{ '商品説明: ' }}</td>
-							<td>{{ $item->content }}</td>
-						</tr>
-						<tr>
-							<td>{{ '価格: ' }}</td>
-							<td>{{ $item->price . ' 円'}}</td>
-						</tr>
-						<tr>
-							<td>{{ '在庫数: ' }}</td>
-							<td>{{ $item->quantity . ' 個'}}</td>
-						</tr>
-					</tbody>
-				</table>
+					<img src="{{ asset('storage/upload/' . $image_name)}}" class="img-responsive img-fluid" style="float:right;width:250px;margin:0px 0px 0px 20px">
+					<table class="table-striped table-condensed" style="d-flex">
+						<tbody style="font-size: 18px">
+							<tr>
+								<td style="width:20%">{{ '商品名: ' }}</td>
+								<td style="width:50%">{{ $item->name }}</td>
+							</tr>
+							<tr>
+								<td>{{ '商品説明: ' }}</td>
+								<td>{{ $item->content }}</td>
+							</tr>
+							<tr>
+								<td>{{ '価格: ' }}</td>
+								<td>{{ $item->price . ' 円'}}</td>
+							</tr>
+							<tr>
+								<td>{{ '在庫数: ' }}</td>
+								<td>{{ $item->quantity . ' 個'}}</td>
+							</tr>
+						</tbody>
+					</table>
 				@if (isLogin() && getUserType() == 'User')
-					<div class="panel-footer">
+					<div class="d-flex flex-column" style="float:left;margin:50px 0px 0px 0px">
 						@if (0 < $item->quantity)
 							<form method="post" action="{{ route('cart.insert') }}">
 								{{ csrf_field() }}

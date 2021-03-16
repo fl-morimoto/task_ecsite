@@ -22,8 +22,4 @@ class Cart extends Model
 		$result = $this->item->price * $this->quantity;
 		return $result;
 	}
-	public function total() {
-		$cart = $this->cart->all();
-		dd(cart);
-	}
 }

@@ -1,7 +1,3 @@
-<?php
-//dd($users);
-
-?>
 @extends('layouts.app')
 @section('content')
 <div class="container">

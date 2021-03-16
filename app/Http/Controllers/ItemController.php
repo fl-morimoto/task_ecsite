@@ -1,10 +1,11 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Contracts\Encryption\DecryptException;
-use App\Http\Requests\ItemRequest;
+use Illuminate\Support\Facades\Storage;
+use App\Http\Requests\ItemInsertRequest;
+use App\Http\Requests\ItemUpdateRequest;
 use App\Item;
 
 class ItemController extends Controller
@@ -45,14 +46,66 @@ class ItemController extends Controller
 		}
 		return view('item.form', compact('item'));
 	}
-	public function insert(ItemRequest $req)
+	public function insert(ItemInsertRequest $req)
    	{
 		$this->item->fill($req->all())->save();
 		return redirect(route('admin.item.index'))->with('true_message', '商品を追加しました。');
 	}
-	public function update(ItemRequest $req)
+	public function update(ItemUpdateRequest $req)
 	{
-		$this->item->execUpdate($req);
-		return redirect(route('admin.item.index'))->with('true_message', '商品を編集しました。');
+		$item = $this->item->findOrFail(decryptOrNull($req->id));
+		if (empty($item)) {
+			return redirect(route('admin.item.index'))->with('false_message', 'アクセスIDが不正です。');
+		}
+		//画像アップロード処理
+		$filename = null;
+		if (!empty($req->image)) {
+			$file_extention = $this->getImageTypeOrNull($req);
+			if (!empty($file_extention)) {
+				$filename = $this->makeImageName($req) . $file_extention;
+				$image_path = $req->image->storeAs('public/upload', $filename);
+				if (!empty($item->image_name)) {
+					Storage::delete('public/upload/' . $item->image_name);
+				}
+			} else {
+				return redirect(route('admin.item.detail', ['id' => encrypt($item->id)]))->with('false_message', '画像はJPEG、PNG、GIFのみ登録できます。');
+			}
+		}
+		//編集後のItemをDBにupdate
+		$item->fill(['name' => $req->input('name')]);
+		$item->fill(['content' => $req->input('content')]);
+		$item->fill(['price' => $req->input('price')]);
+		$item->fill(['quantity' => $req->input('quantity')]);
+		if (!empty($filename)) {
+			$item->fill(['image_name' => $filename]);
+		}
+		$item->save();
+		return redirect(route('admin.item.detail', ['id' => encrypt($item->id)]))->with('true_message', '商品を編集しました。');
+	}
+	private function makeImageName($req) {
+		$basename = md5($req->image->getClientOriginalName() . date('Y-m-d H:i:s'));
+		return $basename;
+	}
+	private function getImageTypeOrNull($req) {
+		$tmp_file = $req->image->getPathname();
+		if (!is_uploaded_file($tmp_file)) {
+			return null;
+		}
+		$image_type = @exif_imagetype($tmp_file);
+		switch ($image_type) {
+			case IMAGETYPE_JPEG:
+				$ext = '.jpg';
+				break;
+			case IMAGETYPE_PNG:
+				$ext = '.png';
+				break;
+			case IMAGETYPE_GIF:
+				$ext = '.gif';
+				break;
+			default:
+				$ext = null;
+				break;
+		}
+		return $ext;
 	}
 }
