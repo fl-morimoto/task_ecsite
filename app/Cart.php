@@ -22,4 +22,11 @@ class Cart extends Model
 		$result = $this->item->price * $this->quantity;
 		return $result;
 	}
+	public function total($carts) {
+		$total = 0;
+		foreach ($carts as $cart) {
+			$total += $cart->subtotal();
+		}
+		return $total;
+	}
 }

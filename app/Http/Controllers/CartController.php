@@ -13,24 +13,17 @@ class CartController extends Controller
 	private $cart;
 	private $item;
 
-	public function __construct() {
-		$this->cart = new Cart;
-		$this->item = new Item;
+	public function __construct(Cart $cart, Item $item) {
+		$this->cart = $cart;
+		$this->item = $item;
 	}
 	public function item() {
 		return $this->belongsTo('App\Item', 'item_id');
 	}
 	public function index() {
 		$carts = $this->cart->where('user_id', userinfo()->id)->get();
-		$total = $this->total($carts);
+		$total = $this->cart->total($carts);
 		return view('cart/index', compact('carts', 'total'));
-	}
-	private function total($carts) {
-		$total = 0;
-		foreach ($carts as $cart) {
-			$total += $cart->subtotal();
-		}
-		return $total;
 	}
 	public function insert(CartRequest $req) {
 		$item_id = decryptOrNull($req->id);

@@ -13,10 +13,11 @@ class AddressController extends Controller
 	public function __construct() {
 		$this->address = new Address;
 	}
-	public function index() {
+	public function index(Request $req) {
+		$carts = $req->carts;
 		$addresses = $this->address->where('user_id', userinfo()->id)->get();
 		$address = new Address;
-		return view('address.index', compact('addresses', 'address'));
+		return view('address.index', compact('addresses', 'address', 'carts'));
 	}
 	private function md5Address(Request $ad) {
 		$param = userInfo()->id . $ad->zip . $ad->state . $ad->city . $ad->street . $ad->tel;

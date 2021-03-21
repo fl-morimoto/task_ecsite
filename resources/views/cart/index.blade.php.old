@@ -38,14 +38,9 @@
 					</tbody>
 				</table>
 				<div class="panel-footer" style="font-size: 16px;margin: 0px 0px 20px 20px">
-					<label align="center">支払い総額</label>
-					<label style="margin:0px 0px 0px 10px">￥ {{ number_format($total) }} 円（税込） </label>
+					<label align="center">カート合計 ￥ </label>
+					<label>{{ number_format($total) }} 円 (税抜)</label>
 				</div>
-				<form action="{{ route('address.index') }}" method="POST" style="margin:0px 0px 0px 20px">
-					{{ csrf_field() }}
-					<input type="hidden" name="carts" value="{{ $carts }}">
-					<button type="submit">レジに進む</button>
-				</form>
 			@else
 				<div class="panel-footer" style="font-size: 16px;margin: 0px 0px 20px 20px">
 					<p>カートが空です。</p>
@@ -58,25 +53,3 @@
 </div>
 </div>
 @endsection
-	<!--div style="margin-bottom:50px">
-		<form action="{{ route('order.charge') }}" method="POST" class="text-center mt-5">
-			{{ csrf_field() }}
-			<script
-				src="https://checkout.stripe.com/checkout.js" class="stripe-button"
-				data-key="{{ env('STRIPE_KEY') }}"
-				data-amount="{{ $total }}"
-				data-name="クレジット決済"
-				data-label="購入する"
-				data-description="商品代金として。"
-				data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
-				data-locale="auto"
-				data-currency="JPY">
-			</script>
-		</form>
-	</div-->
-
-
-
-
-
-

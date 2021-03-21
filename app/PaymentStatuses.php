@@ -3,8 +3,9 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Payment_status extends Model
+class PaymentStatuses extends Model
 {
 	use SoftDeletes;
 	protected $fillable = ['status'];

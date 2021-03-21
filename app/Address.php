@@ -13,4 +13,13 @@ class Address extends Model
 	use SoftDeletes;
 	protected $fillable = ['user_id', 'name', 'zip', 'state', 'city', 'street', 'tel', 'address_sum'];
 	protected $tabel = 'addresses';
+
+	public function fullAddress() {
+		$full_address = $this->zip . " " .
+						 config('pref.' . $this->state) . " " .
+						 $this->city . " " .
+						 $this->street . " " .
+						 $this->tel;
+		return $full_address;
+	}
 }

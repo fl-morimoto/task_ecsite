@@ -36,6 +36,7 @@
 			<p><input type="text" name="street" value="{{ $address->street }}"></p>
 			<p>電話番号(ハイフンなし半角)</p>
 			<p><input type="text" name="tel" value="{{ $address->tel }}"></p>
+			<p style="margin:20px"></p>
 			<p><input type="submit" value="登録" style="width:100px;height:30px"></p>
 		</form>
 	</div>
