@@ -29,6 +29,8 @@
 					<p><a href="{{ route('address.index') }}">住所一覧へ</a></p>
 					<p>アカウント</p>
 					<p><a href="{{ route('account.detail') }}">ユーザー編集へ</a></p>
+					<p>注文</p>
+					<p><a href="{{ route('order.index') }}">注文一覧へ</a></p>
 					@endif
 				</div>
 				<div class="panel-footer">

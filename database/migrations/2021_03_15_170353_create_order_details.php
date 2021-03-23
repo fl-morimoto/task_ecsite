@@ -18,6 +18,7 @@ class CreateOrderDetails extends Migration
 			$table->integer('order_id');
 			$table->integer('item_id');
 			$table->string('item_name', 255);
+			$table->integer('item_quantity');
 			$table->unsignedInteger('item_price');
 			$table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
 			$table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));

@@ -1,16 +1,13 @@
 @extends('layouts.app')
 @section('content')
-<div style="font-size: 16px;margin: 0px 0px 20px 20px">
-	@if (isLogin() && getUserType() == 'User')
-		<p><a href="{{ route('item.index') }}">商品一覧ページへ</a></p>
-		<p><a href="{{ route('address.index') }}">お届け先選択ページへ</a></p>
-	@endif
-</div>
 <div class="container">
 <div class="row">
 <div class="col-md-8 col-md-offset-2">
 <div class="panel panel-default">
-	<div class="panel-heading">カート一覧</div>
+	<div class="panel-heading">カート一覧
+		@if (isLogin() && getUserType() == 'User')
+			<a style="margin:0px 0px 0px 30px" href="{{ route('item.index') }}">商品一覧ページへ</a></div>
+		@endif
 		<div class="panel-body">
 			@if (0 < $carts->count())
 				<table class="table-striped table-condensed" style="font-size:16px">
@@ -44,7 +41,7 @@
 				<form action="{{ route('address.index') }}" method="POST" style="margin:0px 0px 0px 20px">
 					{{ csrf_field() }}
 					<input type="hidden" name="carts" value="{{ $carts }}">
-					<button type="submit">レジに進む</button>
+					<button type="submit">レジに進む（お届け先選択ページ）</button>
 				</form>
 			@else
 				<div class="panel-footer" style="font-size: 16px;margin: 0px 0px 20px 20px">
@@ -58,23 +55,6 @@
 </div>
 </div>
 @endsection
-	<!--div style="margin-bottom:50px">
-		<form action="{{ route('order.charge') }}" method="POST" class="text-center mt-5">
-			{{ csrf_field() }}
-			<script
-				src="https://checkout.stripe.com/checkout.js" class="stripe-button"
-				data-key="{{ env('STRIPE_KEY') }}"
-				data-amount="{{ $total }}"
-				data-name="クレジット決済"
-				data-label="購入する"
-				data-description="商品代金として。"
-				data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
-				data-locale="auto"
-				data-currency="JPY">
-			</script>
-		</form>
-	</div-->
-
 
 
 

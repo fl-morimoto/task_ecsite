@@ -33,6 +33,9 @@ Route::group(['middleware' => 'auth:user'], function() {
 	Route::post('order/charge', 'OrderController@charge')->name('order.charge');
 	Route::post('order/confirm', 'OrderController@confirm')->name('order.confirm');
 	Route::get('order/index', 'OrderController@index')->name('order.index');
+	Route::post('order/index', 'OrderController@index')->name('order.index');
+	Route::get('order/detail', 'OrderController@detail')->name('order.detail');
+	Route::post('order/cancel', 'OrderController@cancel')->name('order.cancel');
 
 	Route::get('cart/insert', function () { return redirect(route('cart.index')); });
 	Route::get('cart/delete', function () { return redirect(route('cart.index')); });
@@ -41,6 +44,7 @@ Route::group(['middleware' => 'auth:user'], function() {
 	Route::get('account/update', function () { return redirect(route('account.detail')); });
 	Route::get('order/charge', function () { return redirect(route('cart.index')); });
 	Route::get('order/confirm', function () { return redirect(route('cart.index')); });
+	Route::get('order/cancel', function () { return redirect(route('order.index')); });
 });
 // Admin 認証不要
 Route::group(['prefix' => 'admin'], function() {

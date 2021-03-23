@@ -61,6 +61,16 @@
 				@if (isLogin() && getUserType() == 'User')
 						<ul class="dropdown-menu">
 							<li>
+								<a href="{{ route('order.index') }}"
+									onclick="event.preventDefault();
+									document.getElementById('order-index').submit();">
+									注文履歴
+								</a>
+								<form id="order-index" action="{{ route('order.index') }}" method="GET" style="display: none;">
+									{{ csrf_field() }}
+								</form>
+							</li>
+							<li>
 								<a href="{{ route('account.detail') }}"
 									onclick="event.preventDefault();
 									document.getElementById('user-detail').submit();">

@@ -4,14 +4,12 @@
 	$name = $user->name;
 	$email = $user->email;
 ?>
-<div/div style="font-size: 16px;margin: 0px 0px 20px 20px">
-	<div><p><a href="{{ route('admin.account.index') }}">会員一覧へ</a></p></div>
-</div>
 <div class="container">
 <div class="row">
 <div class="col-md-8 col-md-offset-2">
 <div class="panel panel-default">
-<div class="panel-heading">会員詳細</div>
+<div class="panel-heading">会員詳細
+	<a style="margin:0px 0px 0px 30px" href="{{ route('admin.account.index') }}">会員一覧へ</a></div>
 	<div class="panel-body">
 		<div class="col-md-3 control-label"><label for="name">名前</label></div>
 		<div class="col-md-7 control-label"><label for="name">{{ $name }}</label></div>

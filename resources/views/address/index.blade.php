@@ -18,17 +18,15 @@
 	?>
 @endif
 @if (!empty($addresses))
-<div style="font-size: 16px;margin: 0px 0px 20px 20px">
-	<p><a href="{{ route('cart.index') }}">カート一覧ページへ</a></p>
-</div>
 <div class="container">
 <div class="row">
 <div class="col-md-8 col-md-offset-2">
 <div class="panel panel-default">
-<div class="panel-heading">お届け先住所の選択</div>
+<div class="panel-heading">お届け先住所の選択
+	<a style="margin:0px 0px 0px 30px" href="{{ route('cart.index') }}">カート一覧ページへ</a></div>
 @endif
 	<div class="panel-body">
-		@if (!$addresses->isEmpty())
+		@if (!empty($addresses) && 0 < $addresses->count())
 			<form action="{{ route('order.confirm') }}" method="POST" name="address_id">
 				{{ csrf_field() }}
 				<table style="border-bottom: 1px solid #e0e0e0;">
@@ -61,7 +59,7 @@
 					<input type="submit" value="お届け先を選択して注文の確認へ">
 				@endif
 			</form>
-		@else
+		@elseif (empty($address->id))
 						<tr>
 							<td>登録された住所がありません。</td>
 						</tr>

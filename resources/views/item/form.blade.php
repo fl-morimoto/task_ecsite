@@ -36,25 +36,23 @@ $is_edit = false;
 	$is_edit = true;
 	?>
 @endif
-<div style="font-size: 16px;margin: 0px 0px 20px 20px">
-	@if (isLogin() && getUserType() == 'Admin')
-		<p><a href="{{ route('admin.item.index') }}">商品一覧へ戻る</a></p>
-	@else
-		<p><a href="{{ route('item.index') }}">商品一覧へ戻る</a></p>
-	@endif
-</div>
 <div class="container">
 <div class="row">
 <div class="col-md-8 col-md-offset-2">
 <div class="panel panel-default">
 		<div class="panel-heading">
-		@if ($is_edit)
-			<?php $address = 'admin.item.update'; ?>
-			商品編集
-		@else
-			<?php $address = 'admin.item.insert'; ?>
-			新規登録
-		@endisset
+			@if ($is_edit)
+				<?php $address = 'admin.item.update'; ?>
+				商品編集
+			@else
+				<?php $address = 'admin.item.insert'; ?>
+				新規登録
+			@endisset
+			@if (isLogin() && getUserType() == 'Admin')
+				<a style="margin:0px 0px 0px 30px" href="{{ route('admin.item.index') }}">商品一覧へ戻る</a>
+			@else
+				<a style="margin:0px 0px 0px 30px" href="{{ route('item.index') }}">商品一覧へ戻る</a>
+			@endif
 		</div>
 		<div class="panel-body">
 			<tbody>

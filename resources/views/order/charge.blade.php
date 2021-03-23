@@ -1,4 +1,3 @@
-@endphp
 @extends('layouts.app')
 @section('content')
 <div class="container">
@@ -6,12 +5,13 @@
 <div class="col-md-8 col-md-offset-2">
 <div class="panel panel-default">
 	@if (empty($status_msg))
-		<div class="panel-heading">{{ $order->user_name }}様、ありがとうございます！</div>
+		<div class="panel-heading">{{ $order->user_name }}様、ありがとうございます！
+			<a style="margin:0px 0px 0px 30px" href="{{ route('item.index') }}">商品一覧へ</a></div>
 			<div class="panel-body">
 				<table class="table-striped table-condensed" style="font-size:16px">
 					<tbody>
 						<tr style="background-color:#f5f5f5">
-							<th style="width:15%;text-align:center">商品名</th>
+							<th style="width:15%;text-align:center">ご購入商品名</th>
 						</tr>
 						@foreach ($carts_arr as $cart)
 							<tr>
@@ -37,7 +37,8 @@
 		</div>
 		</div>
 	@else
-		<div class="panel-heading">ご注文の失敗</div>
+		<div class="panel-heading">ご注文の失敗
+			<a style="margin:0px 0px 0px 30px" href="{{ route('item.index') }}">商品一覧へ</a></div>
 			<div class="panel-body">
 				<div class="panel-footer" style="font-size: 16px;margin: 0px 0px 20px 20px">
 					<p>（{{ $status_msg }}）のためお取引を完了することができませんでした。</p>

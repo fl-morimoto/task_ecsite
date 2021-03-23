@@ -18,20 +18,17 @@ if (!empty($item->image_name)) {
 		</ul>
 	</div>
 @endif
-<div style="font-size: 16px;margin: 0px 0px 0px 20px">
-	@if ((isLogin() && getUserType() == 'User') || getUserType() == 'Guest')
-		<p><a href="{{ route('item.index')}}">商品一覧へ</a></p>
-	@elseif (isLogin() && getUserType() == 'Admin')
-		<p><a href="{{ route('admin.item.index') }}">商品一覧へ</a></p>
-		<p></p>
-		<p><a href="{{ route('admin.item.form', ['id' => encrypt($item->id)]) }}">商品編集へ</a></p>
-	@endif
-</div>
 <div class="container">
 <div class="row">
 <div class="col-md-8 col-md-offset-2">
 <div class="panel panel-default">
-	<div class="panel-heading">商品詳細</div>
+	<div class="panel-heading">商品詳細
+	@if ((isLogin() && getUserType() == 'User') || getUserType() == 'Guest')
+		<a style="margin:0px 0px 0px 30px" href="{{ route('item.index')}}">商品一覧へ</a>
+	@elseif (isLogin() && getUserType() == 'Admin')
+		<a style="margin:0px 0px 0px 30px" href="{{ route('admin.item.index') }}">商品一覧へ</a>
+		<a style="margin:0px 0px 0px 25px" href="{{ route('admin.item.form', ['id' => encrypt($item->id)]) }}">商品編集へ</a>
+	@endif
 		<div class="panel-body">
 			@if (!empty($item))
 					<img src="{{ asset('storage/upload/' . $image_name)}}" class="img-responsive img-fluid" style="float:right;width:250px;margin:0px 0px 0px 20px">
@@ -71,7 +68,7 @@ if (!empty($item->image_name)) {
 						@endif
 					</div>
 				@elseif (getUserType() == 'Guest')
-					<div>ログインしてください</div>
+					<div style="font-weight:bold;margin:20px 0px 0px 5px">ログインしてください</div>
 				@endif
 				<p></p>
 			@else
