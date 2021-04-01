@@ -1,5 +1,3 @@
-@php
-@endphp
 @extends('layouts.app')
 @section('content')
 <div class="container">
@@ -53,9 +51,16 @@
 <div class="col-md-1"></div>
 <div class="col-md-10" style="padding:15px;margin:-15px 0px -10px 0px">
 <div class="panel panel-default">
+	@if (getUserType() == 'Admin')
+	<div class="panel-heading">お届先住所・氏名</div>
+	@elseif (getUserType() == 'User')
 	<div class="panel-heading">お届先住所</div>
+	@endif
 		<div class="panel-body">
-			<p style="font-weight:bold;margin:0px 0px 0px 45px">〒{{ $order->user_address }}</p>
+			<p style="font-size:17px;margin:0px 0px 0px 45px">〒{{ $order->fullAddress() }}</p>
+			@if (getUserType() == 'Admin')
+			<p style="font-size:17px;margin:0px 0px 0px 45px">{{ $order->user_name }}様</p>
+			@endif
 		</div>
 	</div>
 </div>
@@ -63,13 +68,38 @@
 <div class="col-md-1"></div>
 </div>
 </div>
-@if ($order->payment_status_id < config('status.SHIPPED'))
-<div style="margin-bottom:50px">
-	<form action="{{ route('order.cancel') }}" method="POST" class="text-center mt-5">
-		{{ csrf_field() }}
-		<input type="hidden" name="stripe_code" value="{{ $order->stripe_code }}">
-		<input type="submit" value="購入のキャンセル">
-	</form>
+@if (getUserType() == 'Admin')
+<div class="container">
+<div class="row">
+<div class="col-md-1"></div>
+<div class="col-md-10" style="padding:15px;margin:-15px 0px -10px 0px">
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<form action="{{ route('admin.order.changeStatus') }}" method="POST">現在のステータス：&nbsp;
+			{{ csrf_field() }}
+			<select style="font-size:16px" name="status">
+			@foreach ($statuses as $index => $status)
+			<?php $real_index = $index + 1; ?>
+<option value="{{ encrypt($real_index) }}" @if ($order->payment_status_id == $real_index) selected @endif>{{ $status->status }}</option>
+			@endforeach
+			</select>
+			<input type="hidden" name="order_id" value="{{ $order->id }}">
+			<input type="hidden" name="stripe_code" value="{{ $order->stripe_code }}">
+			<input type="submit" value="ステータスを更新する">
+		</form>
+	</div>
 </div>
+</div>
+<div class="col-md-1"></div>
+</div>
+</div>
+@elseif (getUserType() == 'User' && $order->payment_status_id < config('status.SHIPPED'))
+	<div style="margin-bottom:50px">
+		<form action="{{ route('order.cancel') }}" method="POST" class="text-center mt-5">
+			{{ csrf_field() }}
+			<input type="hidden" name="stripe_code" value="{{ $order->stripe_code }}">
+			<input type="submit" value="購入のキャンセル">
+		</form>
+	</div>
 @endif
 @endsection

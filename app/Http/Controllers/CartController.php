@@ -37,9 +37,7 @@ class CartController extends Controller
 		$cart_in_qty = $req->quantity;
 		if ($cart_in_qty <= $item->quantity) {
 			DB::transaction(function() use($item, $item_id, $cart_in_qty) {
-				//recordがなければquantity=0でinsert
 				$cart = $this->cart->firstOrCreate(['user_id' => userInfo()->id, 'item_id' => $item_id], ['quantity' => 0]);
-				//quantityの増減
 				$cart->increment('quantity', $cart_in_qty);
 				$item->decrement('quantity', $cart_in_qty);
 			});

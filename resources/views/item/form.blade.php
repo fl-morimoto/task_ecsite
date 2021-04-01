@@ -1,7 +1,6 @@
 @extends('layouts.app')
 @section('content')
 <?php
-//前処理
 $is_edit = false;
 ?>
 @if (!$errors->any())

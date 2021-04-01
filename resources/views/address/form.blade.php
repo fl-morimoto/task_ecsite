@@ -2,7 +2,7 @@
 <div class="row">
 <div class="col-md-8 col-md-offset-2">
 <div class="panel panel-default">
-	<div class="panel-heading"style="background-color:#f5f5f5">
+	<div class="panel-heading" style="background-color:#f5f5f5">
 	@if (!empty($address->id))
 		お届先住所の編集
 	@else

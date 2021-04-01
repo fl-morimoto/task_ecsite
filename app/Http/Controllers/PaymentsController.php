@@ -9,17 +9,15 @@ use Stripe\Charge;
 
 class PaymentsController extends Controller
 {
-	//
 	public function index()
 	{
 		return view('pay.index');
 	}
-
 	public function payment(Request $request)
 	{
 		try
 		{
-			Stripe::setApiKey(env('STRIPE_SECRET'));
+			Stripe::setApiKey(config('services.stripe.secret'));
 
 			$customer = Customer::create(array(
 				'email' => $request->stripeEmail,
@@ -38,7 +36,6 @@ class PaymentsController extends Controller
 			return $e->getMessage();
 		}
 	}
-
 	public function complete()
 	{
 		return view('pay.complete');

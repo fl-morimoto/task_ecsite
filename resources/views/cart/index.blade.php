@@ -26,15 +26,15 @@
 								<td align="right">{{ $cart->quantity }}</td>
 								<td align="right">{{ $cart->subtotal() }}</td>
 								<td align="center"><form method="post" action="{{ route('cart.delete') }}">
-								{{ csrf_field() }}
-								<input type="hidden" name="cart_id" value="{{ encrypt($cart->id) }}">
-								<button type="submit">削除</button>
-								</form>
+									{{ csrf_field() }}
+									<input type="hidden" name="cart_id" value="{{ encrypt($cart->id) }}">
+									<button type="submit">削除</button>
+								</form></td>
 							</tr>
 						@endforeach
 					</tbody>
 				</table>
-				<div class="panel-footer" style="font-size: 16px;margin: 0px 0px 20px 20px">
+				<div class="panel-footer" style="font-size: 16px;margin: 0px 0px 20px 0px">
 					<label align="center">支払い総額</label>
 					<label style="margin:0px 0px 0px 10px">￥ {{ number_format($total) }} 円（税込） </label>
 				</div>

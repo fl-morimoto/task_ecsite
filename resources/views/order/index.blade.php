@@ -6,9 +6,9 @@
 <div class="panel panel-default">
 	<div class="panel-heading">{{ userInfo()->name }}様の ご注文履歴:
 		@if ($status == config('status.CANCELED'))
-			<a style="margin:0px 0px 0px 30px" href="{{ route('order.index', ['status' => config('status.DELIVERED')]) }}">発送前／済み</a>
+			<a style="margin:0px 0px 0px 30px" href="{{ route('order.index') }}">発送前／済み</a>
 		@else
-			<a style="margin:0px 0px 0px 30px" href="{{ route('order.index', ['status' => config('status.CANCELED')]) }}">キャンセル済み</a>
+			<a style="margin:0px 0px 0px 30px" href="{{ route('order.index', ['is_cancel' => true]) }}">キャンセル済み</a>
 		@endif
 		<a style="margin:0px 0px 0px 30px" href="{{ route('item.index') }}">商品一覧へ</a></div>
 		@if (0 < $orders->count())

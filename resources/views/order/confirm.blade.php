@@ -48,7 +48,12 @@
 <div class="panel panel-default">
 	<div class="panel-heading">選択されたお届先住所</div>
 		<div class="panel-body">
-			<p style="font-weight:bold;margin:0px 0px 0px 45px">〒{{ $address }}</p>
+			<p style="font-weight:bold;margin:0px 0px 0px 45px">〒{{ $address->zip . ' ' .
+																	 config('pref.' . $address->state) . ' ' .
+																	 $address->city . ' ' .
+																	 $address->street }} &nbsp;&nbsp;&nbsp;
+																	 {{ 'Tel - ' .
+																	 $address->tel }}</p>
 		</div>
 	</div>
 </div>
@@ -62,7 +67,7 @@
 			{{ csrf_field() }}
 			<script
 				src="https://checkout.stripe.com/checkout.js" class="stripe-button"
-				data-key="{{ env('STRIPE_KEY') }}"
+				data-key="{{ config('services.stripe.key') }}"
 				data-amount="{{ $total }}"
 				data-name="クレジット決済"
 				data-label="この内容で購入する"

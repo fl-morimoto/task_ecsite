@@ -38,9 +38,9 @@
 						@foreach ($addresses as $index => $add)
 						<tr>
 							@if ($index == 0)
-								<td><input type="radio" name="address" value="{{ $add->fullAddress() }}" checked></td>
+								<td><input type="radio" name="address" value="{{ $add->id }}" checked></td>
 							@else
-								<td><input type="radio" name="address" value="{{ $add->fullAddress() }}"></td>
+								<td><input type="radio" name="address" value="{{ $add->id }}"></td>
 							@endif
 							<td>{{ $add->fullAddress() }}
 							<td style="font-weight:bold; text-align:left; text-indent: 1em">

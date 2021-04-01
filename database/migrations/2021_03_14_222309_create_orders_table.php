@@ -18,7 +18,11 @@ class CreateOrdersTable extends Migration
 			$table->unsignedInteger('amount');
 			$table->integer('user_id');
 			$table->string('user_name', 255);
-			$table->string('user_address', 255);
+			$table->string('user_zip', 10);
+			$table->string('user_state', 10);
+			$table->string('user_city', 50);
+			$table->string('user_street', 50);
+			$table->string('user_tel', 12);
 			$table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
 			$table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
 			$table->softDeletes();

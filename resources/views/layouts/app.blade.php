@@ -8,7 +8,7 @@
 <!-- CSRF Token -->
 <meta name="csrf-token" content="{{ csrf_token() }}">
 
-<title>{{ config('app.name', 'Laravel') }}</title>
+<title>{{ config('app.name') }}</title>
 </head>
 <body>
 <!-- Styles -->
@@ -61,24 +61,10 @@
 				@if (isLogin() && getUserType() == 'User')
 						<ul class="dropdown-menu">
 							<li>
-								<a href="{{ route('order.index') }}"
-									onclick="event.preventDefault();
-									document.getElementById('order-index').submit();">
-									注文履歴
-								</a>
-								<form id="order-index" action="{{ route('order.index') }}" method="GET" style="display: none;">
-									{{ csrf_field() }}
-								</form>
+								<a href="{{ route('order.index') }}">注文履歴</a>
 							</li>
 							<li>
-								<a href="{{ route('account.detail') }}"
-									onclick="event.preventDefault();
-									document.getElementById('user-detail').submit();">
-									ユーザー情報編集
-								</a>
-								<form id="user-detail" action="{{ route('account.detail') }}" method="GET" style="display: none;">
-									{{ csrf_field() }}
-								</form>
+								<a href="{{ route('account.detail') }}">ユーザー情報編集</a>
 							</li>
 							<li>
 								<a href="{{ route('logout') }}"
@@ -94,14 +80,10 @@
 				@elseif (isLogin() && getUserType() == 'Admin')
 						<ul class="dropdown-menu">
 							<li>
-								<a href="{{ route('admin.account.index') }}"
-									onclick="event.preventDefault();
-									document.getElementById('user-detail').submit();">
-									ユーザー情報一覧
-								</a>
-								<form id="user-detail" action="{{ route('admin.account.index') }}" method="GET" style="display: none;">
-									{{ csrf_field() }}
-								</form>
+								<a href="{{ route('admin.order.index') }}">注文履歴</a>
+							</li>
+							<li>
+								<a href="{{ route('admin.account.index') }}">ユーザー情報一覧</a>
 							</li>
 							<li>
 								<a href="{{ route('admin.logout') }}"
@@ -123,9 +105,9 @@
 	<div class="screen_wrap">
 		<div class="container py-4">
 			@if (Session::has('true_message'))
-						<div class="alert alert-success">{{ session('true_message') }}</div>
+				<div class="alert alert-success">{{ session('true_message') }}</div>
 			@elseif (Session::has('false_message'))
-						<div class="alert alert-danger">{{ session('false_message') }}</div>
+				<div class="alert alert-danger">{{ session('false_message') }}</div>
 			@endif
 			<?php
 			session()->flash('message', null);

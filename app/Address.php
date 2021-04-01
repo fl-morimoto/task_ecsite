@@ -15,10 +15,10 @@ class Address extends Model
 	protected $tabel = 'addresses';
 
 	public function fullAddress() {
-		$full_address = $this->zip . " " .
-						 config('pref.' . $this->state) . " " .
-						 $this->city . " " .
-						 $this->street . " " .
+		$full_address = $this->zip . "&nbsp;" .
+						 config('pref.' . $this->state) . "&nbsp;" .
+						 $this->city . "&nbsp;" .
+						 $this->street . "&nbsp;&nbsp;&nbsp;" . 'Tel - ' .
 						 $this->tel;
 		return $full_address;
 	}

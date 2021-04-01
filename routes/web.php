@@ -62,9 +62,14 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function() {
 	Route::get('item/detail', 'ItemController@detail')->name('admin.item.detail');
 	Route::get('account/index', 'AccountController@index')->name('admin.account.index');
 	Route::get('account/detail', 'AccountController@detailForAdmin')->name('admin.detailForAdmin');
+	Route::get('order/index', 'OrderController@indexForAdmin')->name('admin.order.index');
+	Route::post('order/index', 'OrderController@indexForAdmin')->name('admin.order.index');
+	Route::get('order/detail', 'OrderController@detail')->name('admin.order.detail');
+	Route::post('order/changeStatus', 'OrderController@changeStatus')->name('admin.order.changeStatus');
 
 	Route::get('item/insert', function () { return redirect(route('admin.item.index')); });
-	Route::get('item/update', function () { return redirect(route('admin.item.index')); });
+	Route::get('item/insert', function () { return redirect(route('admin.item.index')); });
+	Route::get('order/changeStatus', function () { return redirect(route('admin.order.index')); });
 });
 
 

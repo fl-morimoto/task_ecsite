@@ -69,7 +69,7 @@ class AccountController extends Controller
 		if (!$check_pass) {
 			return redirect(route('account.detail'))->with('false_message', 'パスワードが違います。');
 		}
-		$token = hash_hmac('sha256', str_random(40) . $req->email, env('APP_KEY'));
+		$token = hash_hmac('sha256', str_random(40) . $req->email, config('services.app.key'));
 		//change_userデータを生成
 		$this->change_user->fill([
 			'user_id' => $user->id,
@@ -100,7 +100,6 @@ class AccountController extends Controller
 		}
 	}
 	public function updateEmail(Request $req) {
-		//時間制限
 		$user = $this->user->find(userInfo()->id);
 		$token = $req->input('token');
 		$change_user = $this->change_user->where(['update_token' => $token, 'user_id' => userInfo()->id])->first();

@@ -28,7 +28,7 @@
 		<div class="panel panel-default">
 			<div class="panel-heading">選択されたお届先住所</div>
 				<div class="panel-body">
-					<p style="font-weight:bold;margin:0px 0px 0px 45px">〒{{ $order->user_address }}</p>
+					<p style="font-weight:bold;margin:0px 0px 0px 45px">〒{{ $order->fullAddress() }}</p>
 				</div>
 			</div>
 		</div>

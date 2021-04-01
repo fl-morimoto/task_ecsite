@@ -1,8 +1,8 @@
 @extends('layouts.app')
 @section('content')
 <?php
-	$name = $user->name;
-	$email = $user->email;
+$name = $user->name;
+$email = $user->email;
 ?>
 <div class="container">
 <div class="row">

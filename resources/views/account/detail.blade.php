@@ -2,7 +2,7 @@
 @section('content')
 <?php
 if (empty(old('name'))) {
-  $name = $user->name;
+	$name = $user->name;
 } else {
 	$name = old('name');
 }
@@ -19,7 +19,7 @@ if (empty(old('email'))) {
 <div class="panel-heading">ユーザー情報編集</div>
 	<div class="panel-body">
 		<form class="form-horizontal" method="POST" action="{{ route('account.update') }}">
-		{{ csrf_field() }}
+			{{ csrf_field() }}
 			<div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
 				<label for="email" class="col-md-4 control-label">名前</label>
 				<div class="col-md-6">
