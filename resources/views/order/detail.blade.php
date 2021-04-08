@@ -23,7 +23,7 @@
 						@foreach ($details as $detail)
 							<tr>
 								<td style="text-align:right">{{ $detail->order_id }}</td>
-								<td style="text-align:right">{{ $detail->item_name }}</td>
+								<td style="text-align:right"><a href="{{ route('item.detail', ['id' => encrypt($detail->item_id)]) }}">{{ $detail->item_name }}</a></td>
 								<td style="text-align:right">{{ $detail->item_quantity }}</td>
 								<td style="text-align:right">{{ $detail->item_price }}</td>
 								<td style="text-align:right">{{ number_format($detail->item_quantity * $detail->item_price) }}</td>
@@ -68,7 +68,7 @@
 <div class="col-md-1"></div>
 </div>
 </div>
-@if (getUserType() == 'Admin')
+@if (getUserType() == 'Admin' && $order->payment_status_id < config('status.CANCELED'))
 <div class="container">
 <div class="row">
 <div class="col-md-1"></div>
@@ -93,13 +93,42 @@
 <div class="col-md-1"></div>
 </div>
 </div>
-@elseif (getUserType() == 'User' && $order->payment_status_id < config('status.SHIPPED'))
-	<div style="margin-bottom:50px">
-		<form action="{{ route('order.cancel') }}" method="POST" class="text-center mt-5">
+@elseif (getUserType() == 'User' && $order->payment_status_id < config('status.CANCELED'))
+<div class="container">
+<div class="row">
+<div class="col-md-1"></div>
+<div class="col-md-10" style="padding:15px;margin:-15px 0px -10px 0px">
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<form action="{{ route('question.form') }}" method="POST" style="margin:0px 0px 0px 20px">
+			{{ csrf_field() }}
+			<input type="hidden" name="order_id" value="{{ encrypt($order->id) }}">
+			<input type="submit" value="この注文に対して問い合わせをする">
+		</form>
+	</div>
+</div>
+</div>
+<div class="col-md-1"></div>
+</div>
+</div>
+@endif
+@if (getUserType() == 'User' && $order->payment_status_id < config('status.SHIPPED'))
+<div class="container">
+<div class="row">
+<div class="col-md-1"></div>
+<div class="col-md-10" style="padding:15px;margin:-15px 0px -10px 0px">
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<form action="{{ route('order.cancel') }}" method="POST" style="margin:0px 0px 0px 20px">
 			{{ csrf_field() }}
 			<input type="hidden" name="stripe_code" value="{{ $order->stripe_code }}">
 			<input type="submit" value="購入のキャンセル">
 		</form>
 	</div>
+</div>
+</div>
+<div class="col-md-1"></div>
+</div>
+</div>
 @endif
 @endsection

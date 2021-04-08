@@ -14,7 +14,15 @@ Auth::routes();
 
 // User 認証不要
 Route::get('/', 'ItemController@index')->name('item.index');
-Route::get('/item/detail', 'ItemController@detail')->name('item.detail');
+Route::get('item/detail', 'ItemController@detail')->name('item.detail');
+Route::get('question/form', 'QuestionController@form')->name('question.form');
+Route::post('question/form', 'QuestionController@form')->name('question.form');
+Route::get('question/detail', 'QuestionController@detail')->name('question.detail');
+Route::post('question/detail', 'QuestionController@detail')->name('question.detail');
+Route::post('question/post', 'QuestionController@post')->name('question.post');
+
+Route::get('question/detail', function () { return redirect(route('question.form')); });
+Route::get('question/post', function () { return redirect(route('question.form')); });
 // User ログイン後
 Route::group(['middleware' => 'auth:user'], function() {
 	Route::get('home', 'HomeController@index')->name('home');
@@ -36,6 +44,8 @@ Route::group(['middleware' => 'auth:user'], function() {
 	Route::post('order/index', 'OrderController@index')->name('order.index');
 	Route::get('order/detail', 'OrderController@detail')->name('order.detail');
 	Route::post('order/cancel', 'OrderController@cancel')->name('order.cancel');
+	Route::get('review/form', 'ReviewController@form')->name('review.form');
+	Route::post('review/insert', 'ReviewController@insert')->name('review.insert');
 
 	Route::get('cart/insert', function () { return redirect(route('cart.index')); });
 	Route::get('cart/delete', function () { return redirect(route('cart.index')); });
@@ -45,6 +55,7 @@ Route::group(['middleware' => 'auth:user'], function() {
 	Route::get('order/charge', function () { return redirect(route('cart.index')); });
 	Route::get('order/confirm', function () { return redirect(route('cart.index')); });
 	Route::get('order/cancel', function () { return redirect(route('order.index')); });
+	Route::get('review/insert', function () { return redirect(route('item.index')); });
 });
 // Admin 認証不要
 Route::group(['prefix' => 'admin'], function() {
@@ -66,10 +77,12 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function() {
 	Route::post('order/index', 'OrderController@indexForAdmin')->name('admin.order.index');
 	Route::get('order/detail', 'OrderController@detail')->name('admin.order.detail');
 	Route::post('order/changeStatus', 'OrderController@changeStatus')->name('admin.order.changeStatus');
+	Route::get('question/index', 'QuestionController@index')->name('admin.question.index');
+	Route::get('question/detail', 'QuestionController@detailForAdmin')->name('admin.question.detail');
 
+	Route::get('logout', function () { return redirect(route('admin.home')); });
 	Route::get('item/insert', function () { return redirect(route('admin.item.index')); });
-	Route::get('item/insert', function () { return redirect(route('admin.item.index')); });
+	Route::get('item/update', function () { return redirect(route('admin.item.index')); });
 	Route::get('order/changeStatus', function () { return redirect(route('admin.order.index')); });
 });
-
 

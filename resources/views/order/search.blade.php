@@ -5,7 +5,7 @@
 				<div class="panel-heading">名前で探す</div>
 				<ul class="nav nav-pills nav-stacked" style="display:block;padding:15px">
 					<li>
-					<form action="{{ route('admin.order.index') }}" method="POST">
+					<form action="{{ route('admin.order.index') }}" method="get">
 						{{ csrf_field() }}
 						@if (!empty($search['username']))
 						<input type="text" name="username" value="{{ $search['username']}}">
@@ -41,7 +41,7 @@
 			<div class="panel-heading">日付から探す</div>
 				<ul class="nav nav-pills nav-stacked" style="display:block;padding:15px">
 					<li>
-					<form action="{{ route('admin.order.index') }}" method="POST">
+					<form action="{{ route('admin.order.index') }}" method="get">
 						{{ csrf_field() }}
 						<p><input type="date" id="datepicker" name="date_from" value="{{ $search['date_from'] }}">&nbsp;&nbsp;から</p>
 						<p><input type="date" id="datepicker" name="date_to" value="{{ $search['date_to'] }}">&nbsp;&nbsp;まで</p>
@@ -70,7 +70,7 @@
 				<div class="panel-heading">ステータスから探す</div>
 				<ul class="nav nav-pills nav-stacked" style="display:block;padding:15px">
 					<li>
-					<form action="{{ route('admin.order.index') }}" method="POST">
+					<form action="{{ route('admin.order.index') }}" method="get">
 						{{ csrf_field() }}
 						<select style="font-size:16px" name="status_id">
 						@foreach (config('dropmenu.status') as $index => $status)
@@ -108,7 +108,7 @@
 				<div class="panel-heading">金額から探す</div>
 				<ul class="nav nav-pills nav-stacked" style="display:block;padding:15px">
 					<li>
-					<form action="{{ route('admin.order.index') }}" method="POST">
+					<form action="{{ route('admin.order.index') }}" method="get">
 						{{ csrf_field() }}
 						<p><select style="font-size:16px" name="amount_from">
 						@foreach (config('dropmenu.amount_from') as $index => $a_from)

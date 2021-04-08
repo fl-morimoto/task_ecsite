@@ -53,6 +53,7 @@
 							{{ userInfo()->name }} <span class="caret"></span>
 						</a>
 				@elseif (!isLogin())
+					<li><a href="{{ route('question.form') }}">お問い合わせはこちら</a></li>
 					<li><a href="{{ route('login') }}">Login</a></li>
 					<li><a href="{{ route('register') }}">Register</a></li>
 				@elseif (!isLogin() || isAdminLogin())
@@ -65,6 +66,9 @@
 							</li>
 							<li>
 								<a href="{{ route('account.detail') }}">ユーザー情報編集</a>
+							</li>
+							<li>
+								<a href="{{ route('question.form') }}">お問い合わせはこちら</a>
 							</li>
 							<li>
 								<a href="{{ route('logout') }}"
@@ -80,10 +84,13 @@
 				@elseif (isLogin() && getUserType() == 'Admin')
 						<ul class="dropdown-menu">
 							<li>
-								<a href="{{ route('admin.order.index') }}">注文履歴</a>
+								<a href="{{ route('admin.order.index') }}">注文一覧</a>
 							</li>
 							<li>
 								<a href="{{ route('admin.account.index') }}">ユーザー情報一覧</a>
+							</li>
+							<li>
+								<a href="{{ route('admin.question.index') }}">お問い合わせ一覧</a>
 							</li>
 							<li>
 								<a href="{{ route('admin.logout') }}"

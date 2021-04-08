@@ -7,13 +7,16 @@ use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\ItemInsertRequest;
 use App\Http\Requests\ItemUpdateRequest;
 use App\Item;
+use App\Review;
 
 class ItemController extends Controller
 {
 	private $item;
+	private $review;
 
-	public function __construct(Item $item) {
-		$this->item = new Item;
+	public function __construct(Item $item, Review $review) {
+		$this->item = $item;
+		$this->review = $review;
 	}
 	public function index()
 	{
@@ -30,8 +33,19 @@ class ItemController extends Controller
 				return redirect(route('admin.item.index'))->with('false_message', 'アクセスIDが不正です。');
 			}
 		}
-		$item = $this->item::find($item_id);
-		return view('item/detail', compact('item'));
+		$item = $this->item
+			->select('items.*', 'reviews.review_point')
+			->join('reviews', 'items.id', '=', 'reviews.item_id', 'left outer')
+			->where('items.id', '=', $item_id)
+			->first();
+		$reviews = $this->review
+			->select('reviews.*', 'users.name')
+			->join('users', 'users.id', '=', 'reviews.user_id', 'left outer')
+			->where('reviews.item_id', '=', $item_id)
+			->orderBy('created_at', 'desc')
+			->paginate(5);
+		$avg_point = number_format($this->review->avgPoint($reviews), 2);
+		return view('item/detail', compact('item', 'reviews', 'avg_point'));
 	}
 	public function form(Request $req)
    	{
@@ -71,14 +85,13 @@ class ItemController extends Controller
 				return redirect(route('admin.item.detail', ['id' => encrypt($item->id)]))->with('false_message', '画像はJPEG、PNG、GIFのみ登録できます。');
 			}
 		}
-		//編集後のItemをDBにupdate
-		$item->fill(['name' => $req->input('name')]);
-		$item->fill(['content' => $req->input('content')]);
-		$item->fill(['price' => $req->input('price')]);
-		$item->fill(['quantity' => $req->input('quantity')]);
-		if (!empty($filename)) {
-			$item->fill(['image_name' => $filename]);
-		}
+		$item->fill([
+			'name' => $req->input('name'),
+			'content' => $req->input('content'),
+			'price' => $req->input('price'),
+			'quantity' => $req->input('quantity'),
+			'image_name' => $filename
+		]);
 		$item->save();
 		return redirect(route('admin.item.detail', ['id' => encrypt($item->id)]))->with('true_message', '商品を編集しました。');
 	}
