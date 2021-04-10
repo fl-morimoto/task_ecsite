@@ -7,6 +7,7 @@
 	<div class="panel-heading">商品一覧
 		@if (isLogin() && getUserType() == 'Admin')
 			<a style="margin:0px 0px 0px 30px" href="{{ route('admin.item.form') }}">商品追加ページへ</a>
+			<button type="button" style="float:right" onclick="location.href='{{ route('admin.item.download') }}'">一覧のCSVダウンロード</button>
 		@elseif (isLogin() && getUserType() == 'User')
 			<a style="margin:0px 0px 0px 30px" href="{{ route('cart.index') }}">カート一覧ページへ</a>
 		@endif
@@ -58,6 +59,7 @@
 				@endforeach
 			</tbody>
 		</table>
+		<div style="text-align:center">{{ $items->links() }}</div>
 	</div>
 </div>
 </div>

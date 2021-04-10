@@ -18,6 +18,7 @@ use App\Item;
 use App\User;
 use Kyslik\ColumnSortable\Sortable;
 use Carbon\Carbon;
+use App\Lib\Facades\CSV;
 
 class OrderController extends Controller
 {
@@ -96,6 +97,30 @@ class OrderController extends Controller
 
 		}
 		return redirect(route('admin.order.detail', ['id' => encrypt($req->order_id)]))->with('true_message', 'ステータスを更新しました。');
+	}
+	public function download(Request $req) {
+		$status_ope = $this->order->statusOpe($req);
+		$username_ope = $this->order->usernameOpe($req);
+		$username_sql_value = $this->order->search_username($req);
+		$search['status_id'] = $this->order->status($req);
+		$amount_from = $this->order->amount_from($req);
+		$amount_to = $this->order->amount_to($req);
+		$date_from = $this->order->date_from($req);
+		$date_to = $this->order->date_to($req);
+		$orders = $this->order
+			->select('orders.created_at', 'orders.amount', 'orders.user_name', 'payment_statuses.status')
+			->join('payments', 'orders.id', '=', 'payments.order_id')
+			->join('payment_statuses', 'payments.payment_status_id', '=', 'payment_statuses.id')
+			->where('payments.payment_status_id', $status_ope, $search['status_id'])
+			->where('orders.amount', '>=', $amount_from)
+			->where('orders.amount', '<=', $amount_to)
+			->where('orders.created_at', '>=', $date_from)
+			->where('orders.created_at', '<=', $date_to)
+			->where('orders.user_name', $username_ope, $username_sql_value)
+			->get()
+			->toArray();
+			$csvHeader = ['注文日', '金額', '購入者名', '状態'];
+			return CSV::download($orders, $csvHeader, 'order_list.csv');
 	}
 	public function indexForAdmin(Request $req) {
 		$status_ope = $this->order->statusOpe($req);

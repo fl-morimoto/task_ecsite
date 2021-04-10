@@ -79,10 +79,13 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function() {
 	Route::post('order/changeStatus', 'OrderController@changeStatus')->name('admin.order.changeStatus');
 	Route::get('question/index', 'QuestionController@index')->name('admin.question.index');
 	Route::get('question/detail', 'QuestionController@detailForAdmin')->name('admin.question.detail');
+	Route::get('item/download', 'ItemController@download')->name('admin.item.download');
+	Route::post('order/download', 'OrderController@download')->name('admin.order.download');
 
 	Route::get('logout', function () { return redirect(route('admin.home')); });
 	Route::get('item/insert', function () { return redirect(route('admin.item.index')); });
 	Route::get('item/update', function () { return redirect(route('admin.item.index')); });
 	Route::get('order/changeStatus', function () { return redirect(route('admin.order.index')); });
+	Route::get('order/download', function () { return redirect(route('admin.order.index')); });
 });
 

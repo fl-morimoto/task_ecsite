@@ -6,7 +6,32 @@
 <div class="col-md-8">
 <div class="panel panel-default">
 	<div class="panel-heading">ご注文履歴:
-		<a style="margin:0px 0px 0px 30px" href="{{ route('admin.item.index') }}">管理者商品一覧へ</a></div>
+		<a style="margin:0px 0px 0px 30px" href="{{ route('admin.item.index') }}">管理者商品一覧へ</a>
+		<form style="float:right" action="{{ route('admin.order.download') }}" method="post">
+			{{ csrf_field() }}
+			@if (!empty($search['username']))
+			<input type="hidden" name="username" value="{{ $search['username']}}">
+			@else
+			<input type="hidden" name="username" value="">
+			@endif
+			@if (!empty($search['date_from']))
+			<input type="hidden" id="datepicker" name="date_from" value="{{ $search['date_from'] }}">
+			@endif
+			@if (!empty($search['date_to']))
+			<input type="hidden" id="datepicker" name="date_to" value="{{ $search['date_to'] }}">
+			@endif
+			@if (!empty($search['amount_from']))
+			<input type="hidden" name="amount_from" value="{{ $search['amount_from']}}">
+			@endif
+			@if (!empty($search['amount_to']))
+			<input type="hidden" name="amount_to" value="{{ $search['amount_to']}}">
+			@endif
+			@if (!empty($search['status_id']))
+			<input type="hidden" name="status_id" value="{{ $search['status_id']}}">
+			@endif
+			</select>
+			<input style="float:right" type="submit" value="一覧のCSVダウンロード">
+		</form>
 		@if (0 < $orders->count())
 			<div class="panel-body">
 				<table class="table-striped table-condensed" style="font-size:16px">

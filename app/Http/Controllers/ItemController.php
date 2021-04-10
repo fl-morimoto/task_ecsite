@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
 use App\Http\Requests\ItemInsertRequest;
 use App\Http\Requests\ItemUpdateRequest;
 use App\Item;
 use App\Review;
+use App\Lib\Facades\CSV;
 
 class ItemController extends Controller
 {
@@ -18,9 +20,17 @@ class ItemController extends Controller
 		$this->item = $item;
 		$this->review = $review;
 	}
+	public function download() {
+		$items = $this->item
+			->all()
+			->toArray();
+			$csvHeader = ['id', '名前', 'content', 'imagename', 'price', 'quantity', 'created_at', 'updated_at', 'deleted_at'];
+		return CSV::download($items, $csvHeader, 'Item_list.csv');
+	}
 	public function index()
 	{
-		$items = $this->item::all();
+		$items = $this->item
+			->paginate(15);
 		return view('item/index', compact('items'));
 	}
 	public function detail(Request $req)
