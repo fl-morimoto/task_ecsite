@@ -7,7 +7,7 @@
 	<div class="panel-heading">商品一覧
 		@if (isLogin() && getUserType() == 'Admin')
 			<a style="margin:0px 0px 0px 30px" href="{{ route('admin.item.form') }}">商品追加ページへ</a>
-			<button type="button" style="float:right" onclick="location.href='{{ route('admin.item.download') }}'">一覧のCSVダウンロード</button>
+			<button type="button" id="csv-item-button" style="float:right" onclick="return check()">一覧のCSVダウンロード</button>
 		@elseif (isLogin() && getUserType() == 'User')
 			<a style="margin:0px 0px 0px 30px" href="{{ route('cart.index') }}">カート一覧ページへ</a>
 		@endif
@@ -65,4 +65,14 @@
 </div>
 </div>
 </div>
+<script type="text/javascript">
+	function check() {
+		var checked = confirm("ダウンロードしますか？")
+		if (checked == true) {
+			return location.href='{{ route('admin.item.download') }}';
+		} else {
+			return false;
+		}
+	}
+</script>
 @endsection

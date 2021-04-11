@@ -7,7 +7,7 @@
 <div class="panel panel-default">
 	<div class="panel-heading">ご注文履歴:
 		<a style="margin:0px 0px 0px 30px" href="{{ route('admin.item.index') }}">管理者商品一覧へ</a>
-		<form style="float:right" action="{{ route('admin.order.download') }}" method="post">
+		<form style="float:right" id="csv-order-button" action="{{ route('admin.order.download') }}" method="post">
 			{{ csrf_field() }}
 			@if (!empty($search['username']))
 			<input type="hidden" name="username" value="{{ $search['username']}}">
@@ -30,7 +30,7 @@
 			<input type="hidden" name="status_id" value="{{ $search['status_id']}}">
 			@endif
 			</select>
-			<input style="float:right" type="submit" value="一覧のCSVダウンロード">
+			<input style="float:right" type="submit" onclick="return check()" value="一覧のCSVダウンロード">
 		</form>
 		@if (0 < $orders->count())
 			<div class="panel-body">
@@ -78,4 +78,14 @@
 </div>
 </div>
 </div>
+<script type="text/javascript">
+	function check() {
+		var checked = confirm("ダウンロードしますか？")
+		if (checked == true) {
+			return location.href='{{ route('admin.item.download') }}';
+		} else {
+			return false;
+		}
+	}
+</script>
 @endsection
