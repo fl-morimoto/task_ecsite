@@ -25,11 +25,7 @@ class ItemInsertRequest extends FormRequest
     public function rules()
     {
         return [
-			'name' => [
-				'required',
-				'string',
-				'max:191',
-			],
+			'name' => 'required|string|max:191',
 			'content' => 'required|string|max:191',
 			'price' => 'required|integer|digits_between:1,10|min:1',
 			'quantity' => 'required|integer|digits_between:1,10|min:0',

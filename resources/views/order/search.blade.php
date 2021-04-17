@@ -7,27 +7,12 @@
 					<li>
 					<form action="{{ route('admin.order.index') }}" method="get">
 						{{ csrf_field() }}
-						@if (!empty($search['username']))
-						<input type="text" name="username" value="{{ $search['username']}}">
-						@else
-						<input type="text" name="username" value="">
-						@endif
-						@if (!empty($search['date_from']))
-						<input type="hidden" id="datepicker" name="date_from" value="{{ $search['date_from'] }}">
-						@endif
-						@if (!empty($search['date_to']))
-						<input type="hidden" id="datepicker" name="date_to" value="{{ $search['date_to'] }}">
-						@endif
-						@if (!empty($search['amount_from']))
-						<input type="hidden" name="amount_from" value="{{ $search['amount_from']}}">
-						@endif
-						@if (!empty($search['amount_to']))
-						<input type="hidden" name="amount_to" value="{{ $search['amount_to']}}">
-						@endif
-						@if (!empty($search['status_id']))
-						<input type="hidden" name="status_id" value="{{ $search['status_id']}}">
-						@endif
-						</select>
+						<input type="text" name="username" value="{{ !empty($search['username']) ? $search['username'] : "" }}">
+						<input type="hidden" id="datepicker" name="date_from" value="{{ !empty($search['date_from']) ? $search['date_from'] : null }}">
+						<input type="hidden" id="datepicker" name="date_to" value="{{ !empty($search['date_to']) ? $search['date_to'] : null }}">
+						<input type="hidden" name="amount_from" value="{{ !empty($search['amount_from']) ? $search['amount_from'] : null }}">
+						<input type="hidden" name="amount_to" value="{{ !empty($search['amount_to']) ? $search['amount_to'] : null }}">
+						<input type="hidden" name="status_id" value="{{ !empty($search['status_id']) ? $search['status_id'] : null }}">
 						<input style="float:right" type="submit" value="検索">
 					</form>
 					</li>
@@ -45,18 +30,10 @@
 						{{ csrf_field() }}
 						<p><input type="date" id="datepicker" name="date_from" value="{{ $search['date_from'] }}">&nbsp;&nbsp;から</p>
 						<p><input type="date" id="datepicker" name="date_to" value="{{ $search['date_to'] }}">&nbsp;&nbsp;まで</p>
-						@if (!empty($search['amount_from']))
-						<input type="hidden" name="amount_from" value="{{ $search['amount_from']}}">
-						@endif
-						@if (!empty($search['amount_to']))
-						<input type="hidden" name="amount_to" value="{{ $search['amount_to']}}">
-						@endif
-						@if (!empty($search['status_id']))
-						<input type="hidden" name="status_id" value="{{ $search['status_id']}}">
-						@endif
-						@if (!empty($search['username']))
-						<input type="hidden" name="username" value="{{ $search['username']}}">
-						@endif
+						<input type="hidden" name="amount_from" value="{{ !empty($search['amount_from']) ? $search['amount_from'] : null }}">
+						<input type="hidden" name="amount_to" value="{{ !empty($search['amount_to']) ? $search['amount_to'] : null }}">
+						<input type="hidden" name="status_id" value="{{ !empty($search['status_id']) ? $search['status_id'] : null }}">
+						<input type="hidden" name="username" value="{{ !empty($search['username']) ? $search['username'] : null }}">
 						<input style="float:right" type="submit" value="検索">
 					</form>
 					</li>
@@ -76,25 +53,12 @@
 						@foreach (config('dropmenu.status') as $index => $status)
 							<option value="{{ $index }}" @if ($index == $search['status_id']) selected @endif>{{ $status }}</option>
 						@endforeach
-						@if (!empty($search['date_from']))
-						<input type="hidden" id="datepicker" name="date_from" value="{{ $search['date_from'] }}">
-						@endif
-						@if (!empty($search['date_to']))
-						<input type="hidden" id="datepicker" name="date_to" value="{{ $search['date_to'] }}">
-						@endif
-						@if (!empty($search['amount_from']))
-						<input type="hidden" name="amount_from" value="{{ $search['amount_from']}}">
-						@endif
-						@if (!empty($search['amount_to']))
-						<input type="hidden" name="amount_to" value="{{ $search['amount_to']}}">
-						@endif
-						@if (!empty($search['status_id']))
-						<input type="hidden" name="status_id" value="{{ $search['status_id']}}">
-						@endif
-						@if (!empty($search['username']))
-						<input type="hidden" name="username" value="{{ $search['username']}}">
-						@endif
 						</select>
+						<input type="hidden" id="datepicker" name="date_from" value="{{ !empty($search['date_from']) ? $search['date_from'] : null }}">
+						<input type="hidden" id="datepicker" name="date_to" value="{{ !empty($search['date_to']) ? $search['date_to'] : null }}">
+						<input type="hidden" name="amount_from" value="{{ !empty($search['amount_from']) ? $search['amount_from'] : null }}">
+						<input type="hidden" name="amount_to" value="{{ !empty($search['amount_to']) ? $search['amount_to'] : null }}">
+						<input type="hidden" name="username" value="{{ !empty($search['username']) ? $search['username'] : null }}">
 						<input style="float:right" type="submit" value="検索">
 					</form>
 					</li>
@@ -119,19 +83,11 @@
 						@foreach (config('dropmenu.amount_to') as $index => $a_to)
 							<option value="{{ $index }}" @if ($index == $search['amount_to']) selected @endif>{{ $a_to }}</option>
 						@endforeach
-						@if (!empty($search['status_id']))
-						<input type="hidden" name="status_id" value="{{ $search['status_id']}}">
-						@endif
-						@if (!empty($search['date_from']))
-						<input type="hidden" id="datepicker" name="date_from" value="{{ $search['date_from'] }}">
-						@endif
-						@if (!empty($search['date_to']))
-						<input type="hidden" id="datepicker" name="date_to" value="{{ $search['date_to'] }}">
-						@endif
-						@if (!empty($search['username']))
-						<input type="hidden" name="username" value="{{ $search['username']}}">
-						@endif
 						</select>まで
+						<input type="hidden" id="datepicker" name="date_from" value="{{ !empty($search['date_from']) ? $search['date_from'] : null }}">
+						<input type="hidden" id="datepicker" name="date_to" value="{{ !empty($search['date_to']) ? $search['date_to'] : null }}">
+						<input type="hidden" name="username" value="{{ !empty($search['username']) ? $search['username'] : null }}">
+						<input type="hidden" name="status_id" value="{{ !empty($search['status_id']) ? $search['status_id'] : null }}">
 						<input style="float:right" type="submit" value="検索">
 					</form>
 					</li>

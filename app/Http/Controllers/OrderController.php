@@ -146,8 +146,7 @@ class OrderController extends Controller
 			->where('orders.created_at', '>=', $date_from)
 			->where('orders.created_at', '<=', $date_to)
 			->where('orders.user_name', $username_ope, $username_sql_value)
-			->orderBy('created_at', 'desc')
-			->sortable()
+			->sortable(['created_at' => 'desc'])
 			->paginate(15);
 		return view('order.indexForAdmin', compact('orders', 'search'));
 	}

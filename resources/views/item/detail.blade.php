@@ -34,6 +34,10 @@ if (!empty($item->image_name)) {
 					<table class="table-striped table-condensed" style="d-flex">
 						<tbody style="font-size: 18px">
 							<tr>
+								<td style="width:20%">{{ '商品ID: ' }}</td>
+								<td style="width:50%">{{ $item->id }}</td>
+							</tr>
+							<tr>
 								<td style="width:20%">{{ '商品名: ' }}</td>
 								<td style="width:50%">{{ $item->name }}</td>
 							</tr>
@@ -88,30 +92,30 @@ if (!empty($item->image_name)) {
 	<div class="col-md-2"></div>
 	<div class="col-md-8" style="padding:15px;margin:-15px 0px -10px 0px">
 	<div class="panel panel-default">
-		<div style="font-size:16px" class="panel-heading">商品レビュー（最高評価：５）
+		<div style="font-size:16px" class="panel-heading">商品レビュー（１～５最高）
 			<label>&nbsp;&nbsp;&nbsp;平均評価 &nbsp;&nbsp;{{ $avg_point }}</label>
-			@if (getUserType() == 'User')
-			<a style="float:right" href="{{ route('review.form', ['item_id' => encrypt($item->id)]) }}">この商品のレビューをする</a>
-			@endif
-			<div class="panel-body">
-				<table class="table-striped table-condensed" style="font-size:16px">
-					<tr>
-						<th style="width: 20%;text-align: center">日付</th>
-						<th style="width: 12%;text-align: center">評価値</th>
-						<th style="width: 10%;text-align: center">名前</th>
-						<th style="width: 58%;text-align: center">コメント</th>
-					</tr>
-					@foreach ($reviews as $review)
-					<tr>
-						<td style="text-align:center">{{ date('Y-m-d', strtotime($review->created_at)) }}</td>
-						<td style="text-align:center">{{ $review->review_point }}</td>
-						<td style="text-align:right">{{ $review->name }}&nbsp;&nbsp;&nbsp;&nbsp;</td>
-						<td style="text-align:left">{{ $review->comment }}</td>
-					</tr>
-					@endforeach
-				</table>
-				<div style="text-align:center">{{ $reviews->appends(['id' => encrypt($item->id)])->links() }}</div>
-			</div>
+		</div>
+		@if (getUserType() == 'User')
+		<a style="float:right" href="{{ route('review.form', ['item_id' => encrypt($item->id)]) }}">この商品のレビューをする</a>
+		@endif
+		<div class="panel-body">
+			<table class="table-striped table-condensed" style="font-size:16px">
+				<tr>
+					<th style="width: 20%;text-align: center">日付</th>
+					<th style="width: 12%;text-align: center">評価値</th>
+					<th style="width: 10%;text-align: center">名前</th>
+					<th style="width: 58%;text-align: center">コメント</th>
+				</tr>
+				@foreach ($reviews as $review)
+				<tr>
+					<td style="text-align:center">{{ date('Y-m-d', strtotime($review->created_at)) }}</td>
+					<td style="text-align:center">{{ $review->review_point }}</td>
+					<td style="text-align:right">{{ $review->name }}&nbsp;&nbsp;&nbsp;&nbsp;</td>
+					<td style="text-align:left">{{ $review->comment }}</td>
+				</tr>
+				@endforeach
+			</table>
+			<div style="text-align:center">{{ $reviews->appends(['id' => encrypt($item->id)])->links() }}</div>
 		</div>
 	</div>
 	</div>

@@ -142,10 +142,9 @@ $is_edit = false;
 <div class="col-md-2"></div>
 <div class="col-md-8" style="padding:15px;margin:-15px 0px -10px 0px">
 <div class="panel panel-default">
-	<div style="font-size:16px" class="panel-heading">CSVアップロード: IDデータが'null'もしくは「空」なら新規登録<br>
-	<span style="margin:0px 0px 0px 135px">名前データは全角文字。</div>
+	<div style="font-size:16px" class="panel-heading">CSVアップロード: データ個数 = 5, 先頭のIDがあれば新規登録</div>
 	<div class="panel-body">
-		<form action="{{ route('admin.item.upload') }}" method="post" enctype="multipart/form-data">
+		<form action="{{ route('admin.item.upload_validation') }}" method="post" enctype="multipart/form-data">
 		{{ csrf_field() }}
 		<input type="file" name="csvfile" size="30" /><br />
 		<input type="submit" value="アップロード" />

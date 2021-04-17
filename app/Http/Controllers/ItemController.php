@@ -16,15 +16,54 @@ class ItemController extends Controller
 	private $item;
 	private $review;
 
-	public function __construct(Item $item, Review $review) {
+	public function __construct(Item $item, Review $review)
+	{
 		$this->item = $item;
 		$this->review = $review;
 	}
-	public function download() {
+	public function upload(Request $req)
+	{
+		$validator = $this->item->validateCsvFile($req);
+		if ($validator->fails()) {
+			return redirect(route('admin.item.form'))->with('false_message', $validator->errors()->first('csvfile'));
+		}
+		$csv_obj = new \SplFileObject($req->file('csvfile')->path());
+		$csv_obj->setFlags(
+			\SplFileObject::READ_CSV |
+			\SplFileObject::READ_AHEAD |
+			\SplFileObject::SKIP_EMPTY |
+			\SplFileObject::DROP_NEW_LINE
+		);
+		$items = [];
+		foreach ($csv_obj as $index => $line) {
+			//新規作成時、IDは'null'もしくは空きデータとする。
+			$item = $this->item->makeItemArray($line);
+			if ($item['id'] != 'ID') {
+				$items[] = $item;
+				$validator = $this->item->validateCsvRecoerd($item);
+				if ($validator->fails()) {
+					$index ++;
+					return redirect(route('admin.item.form'))->with('false_message', 'Line: ' . $index . ' => ' . $validator->errors()->first());
+				}
+			}
+		}
+		DB::beginTransaction();
+		try {
+			$this->item->itemCreateOrUpdate($items);
+			DB::commit();
+		} catch (Exception $e) {
+			DB::rollback();
+			return redirect(route('admin.item.form'))->with('false_message', $e . 'が原因でCSVアップロードに失敗しました。');
+		}
+		return redirect(route('admin.item.index'))->with('true_message', 'CSVアップロードを完了しました。');
+	}
+	public function download()
+	{
 		$items = $this->item
-			->all()
+			->select('id', 'name', 'content', 'price', 'quantity')
+			->get()
 			->toArray();
-			$csvHeader = ['id', '名前', 'content', 'imagename', 'price', 'quantity', 'created_at', 'updated_at', 'deleted_at'];
+			$csvHeader = ['ID', '名前', '説明', '単価', '在庫数'];
 		return CSV::download($items, $csvHeader, 'Item_list.csv');
 	}
 	public function index()
@@ -95,21 +134,32 @@ class ItemController extends Controller
 				return redirect(route('admin.item.detail', ['id' => encrypt($item->id)]))->with('false_message', '画像はJPEG、PNG、GIFのみ登録できます。');
 			}
 		}
-		$item->fill([
-			'name' => $req->input('name'),
-			'content' => $req->input('content'),
-			'price' => $req->input('price'),
-			'quantity' => $req->input('quantity'),
-			'image_name' => $filename
-		]);
+		if (!empty($filename)) {
+			$item->fill([
+				'name' => $req->input('name'),
+				'content' => $req->input('content'),
+				'price' => $req->input('price'),
+				'quantity' => $req->input('quantity'),
+				'image_name' => $filename
+			]);
+		} else {
+			$item->fill([
+				'name' => $req->input('name'),
+				'content' => $req->input('content'),
+				'price' => $req->input('price'),
+				'quantity' => $req->input('quantity'),
+			]);
+		}
 		$item->save();
 		return redirect(route('admin.item.detail', ['id' => encrypt($item->id)]))->with('true_message', '商品を編集しました。');
 	}
-	private function makeImageName($req) {
+	private function makeImageName($req)
+	{
 		$basename = md5($req->image->getClientOriginalName() . date('Y-m-d H:i:s'));
 		return $basename;
 	}
-	private function getImageTypeOrNull($req) {
+	private function getImageTypeOrNull($req)
+	{
 		$tmp_file = $req->image->getPathname();
 		if (!is_uploaded_file($tmp_file)) {
 			return null;

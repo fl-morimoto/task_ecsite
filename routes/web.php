@@ -81,11 +81,13 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function() {
 	Route::get('question/detail', 'QuestionController@detailForAdmin')->name('admin.question.detail');
 	Route::get('item/download', 'ItemController@download')->name('admin.item.download');
 	Route::post('order/download', 'OrderController@download')->name('admin.order.download');
+	Route::post('item/upload', 'ItemController@upload')->name('admin.item.upload');
 
 	Route::get('logout', function () { return redirect(route('admin.home')); });
 	Route::get('item/insert', function () { return redirect(route('admin.item.index')); });
 	Route::get('item/update', function () { return redirect(route('admin.item.index')); });
 	Route::get('order/changeStatus', function () { return redirect(route('admin.order.index')); });
 	Route::get('order/download', function () { return redirect(route('admin.order.index')); });
+	Route::get('item/upload', function () { return redirect(route('admin.item.form')); });
 });
 

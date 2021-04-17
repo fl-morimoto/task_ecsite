@@ -16,6 +16,7 @@
 		<table class="table-striped table-condensed" style="font-size:16px">
 			<tbody>
 				<tr style="background-color:#e3f0fb">
+				<th style="width: 100px;text-align: center">商品ID</th>
 				<th style="width: 200px;text-align: center">商品名</th>
 				<th style="width: 150px;text-align: center">価格</th>
 				<th style="width: 150px;text-align: center">在庫数</th>
@@ -36,6 +37,7 @@
 						?>
 					@endif
 					<tr style="background-color:{{ $bgcolor }}">
+						<td style="text-align:center">{{ number_format($item->id) }}</td>
 						@if (!empty($item->image_name))
 						<td style="font-weight:bold; text-align:left; text-indent: 1em">
 						@else

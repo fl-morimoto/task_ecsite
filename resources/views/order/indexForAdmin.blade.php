@@ -9,27 +9,12 @@
 		<a style="margin:0px 0px 0px 30px" href="{{ route('admin.item.index') }}">管理者商品一覧へ</a>
 		<form style="float:right" id="csv-order-button" action="{{ route('admin.order.download') }}" method="post">
 			{{ csrf_field() }}
-			@if (!empty($search['username']))
-			<input type="hidden" name="username" value="{{ $search['username']}}">
-			@else
-			<input type="hidden" name="username" value="">
-			@endif
-			@if (!empty($search['date_from']))
-			<input type="hidden" id="datepicker" name="date_from" value="{{ $search['date_from'] }}">
-			@endif
-			@if (!empty($search['date_to']))
-			<input type="hidden" id="datepicker" name="date_to" value="{{ $search['date_to'] }}">
-			@endif
-			@if (!empty($search['amount_from']))
-			<input type="hidden" name="amount_from" value="{{ $search['amount_from']}}">
-			@endif
-			@if (!empty($search['amount_to']))
-			<input type="hidden" name="amount_to" value="{{ $search['amount_to']}}">
-			@endif
-			@if (!empty($search['status_id']))
-			<input type="hidden" name="status_id" value="{{ $search['status_id']}}">
-			@endif
-			</select>
+			<input type="hidden" name="username" value="{{ !empty($search['username']) ? $search['username'] : "" }}">
+			<input type="hidden" id="datepicker" name="date_from" value="{{ !empty($search['date_from']) ? $search['date_from'] : null }}">
+			<input type="hidden" id="datepicker" name="date_to" value="{{ !empty($search['date_to']) ? $search['date_to'] : null }}">
+			<input type="hidden" name="amount_from" value="{{ !empty($search['amount_from']) ? $search['amount_from'] : null }}">
+			<input type="hidden" name="amount_to" value="{{ !empty($search['amount_to']) ? $search['amount_to'] : null }}">
+			<input type="hidden" name="status_id" value="{{ !empty($search['status_id']) ? $search['status_id'] : null }}">
 			<input style="float:right" type="submit" onclick="return check()" value="一覧のCSVダウンロード">
 		</form>
 		@if (0 < $orders->count())
