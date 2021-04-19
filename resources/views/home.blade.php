@@ -18,6 +18,8 @@
 					<p><a href="{{ route('admin.item.form', ['id' => encrypt('1')]) }}">商品編集ページへ</a></p>
 					<p>アカウント</p>
 					<p><a href="{{ route('admin.account.index') }}">ユーザー一覧ページへ</a></p>
+					<p>売上</p>
+					<p>本日のこれまでの売上は&nbsp;<strong>{{ $daily_sales }}</strong> &nbsp;円です。</p>
 					<p>注文</p>
 					<p><a href="{{ route('admin.order.index') }}">注文一覧へ</a></p>
 					<p>お問い合わせ</p>

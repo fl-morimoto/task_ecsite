@@ -37,5 +37,8 @@ return [
 	'app' => [
 		'key' => env('APP_KEY'),
 	],
+	'slack' => [
+		'url' => env('SLACK_URL'),
+	],
 
 ];

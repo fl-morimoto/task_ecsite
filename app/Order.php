@@ -5,17 +5,35 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Kyslik\ColumnSortable\Sortable;
 use Carbon\Carbon;
+use Illuminate\Notifications\Notifiable;
 
 class Order extends Model
 {
 	use SoftDeletes;
 	use Sortable;
+	use Notifiable;
 
 	protected $fillable = ['amount', 'user_id', 'user_name', 'user_zip', 'user_state', 'user_city', 'user_street', 'user_tel'];
 	protected $dates = ['deleted_at'];
 
 	public $sortable = ['created_at', 'amount', 'user_name'];
     //
+	public function routeNotificationForSlack() {
+		return config('services.slack.url');
+	}
+	public function dailySales(Carbon $date) {
+		$start_time = $date->toDateTimeString();
+		$end_time = (new Carbon($start_time))->addDays(1)->toDateTimeString();
+		$sales = $this
+			->select('orders.amount')
+			->join('payments', 'orders.id', '=', 'payments.order_id')
+			->join('payment_statuses', 'payments.payment_status_id', '=', 'payment_statuses.id')
+			->where('payments.payment_status_id', '!=', config('status.CANCELED'))
+			->where('orders.created_at', '>=', $start_time)
+			->where('orders.created_at', '<', $end_time)
+			->sum('orders.amount');
+		return $sales;
+	}
 	public function fullAddress() {
 		$full_address = $this->user_zip . "&nbsp;" .
 						 config('pref.' . $this->user_state) . "&nbsp;" .
